@@ -7,24 +7,28 @@
 
 import Foundation
 
-class Node<T> {
-    var value: T
-    var next: Node?
-    required init(value: T) { self.value = value }
+public class Node<T> {
+    public var value: T
+    public var next: Node?
+        
+    public required init(value: T) { self.value = value }
 }
 
-class DLLNode<T> {
-    var value: T
-    var prev: DLLNode?
-    var next: DLLNode?
-    required init(value: T) { self.value = value }
+public class DLLNode<T> {
+    public var value: T
+    public var prev: DLLNode?
+    public var next: DLLNode?
+    
+    public required init(value: T) { self.value = value }
 }
 
-class SinglyLinkedList<T> {
-    private (set) var head: Node<T>?
-    private (set) var tail: Node<T>?
-    private (set) var count = 0
+public class SinglyLinkedList<T> {
+    public private (set) var head: Node<T>?
+    public private (set) var tail: Node<T>?
+    public private (set) var count = 0
     public var isEmpty: Bool { return count == 0 }
+    
+    public init() { }
     
     public func appendToTail(value: T) {
         let newNode = Node<T>(value: value)
@@ -39,22 +43,22 @@ class SinglyLinkedList<T> {
         count += 1
     }
     
-    func pushHead(value: T) {
+    public func pushHead(value: T) {
         let newNode = Node<T>(value: value)
         newNode.next = head
         head = newNode
         count += 1
     }
     
-    func popHead() -> T? {
+    public func popHead() -> T? {
         let retVal = head?.value
         head = head?.next
         if head == nil { tail = nil }
-        if count > 0 { count -= 1 }
+        count -= count == 0 ? 0 : 1
         return retVal
     }
     
-    func printList() {
+    public func printList() {
         var listIter = head
         repeat {
             print(listIter?.value as Any)
@@ -63,11 +67,13 @@ class SinglyLinkedList<T> {
     }
 }
 
-class DoublyLinkedList<T> {
-    private (set) var head: DLLNode<T>?
-    private (set) var tail: DLLNode<T>?
-    private (set) var count = 0
+public class DoublyLinkedList<T> {
+    public private (set) var head: DLLNode<T>?
+    public private (set) var tail: DLLNode<T>?
+    public private (set) var count = 0
     public var isEmpty: Bool { return count == 0 }
+    
+    public init() { }
     
     public func appendToTail(value: T) {
         let newNode = DLLNode<T>(value: value)
@@ -83,7 +89,7 @@ class DoublyLinkedList<T> {
         count += 1
     }
     
-    func pushHead(value: T) {
+    public func pushHead(value: T) {
         let newNode = DLLNode<T>(value: value)
         if let headNode = head {
             headNode.prev = newNode
@@ -97,25 +103,25 @@ class DoublyLinkedList<T> {
         count += 1
     }
     
-    func popTail() -> T? {
+    public func popTail() -> T? {
         let retVal = tail?.value
         tail = tail?.prev
         tail?.next = nil
         if tail == nil { head = nil }
-        if count > 0 { count -= 1 }
+        count -= count == 0 ? 0 : 1
         return retVal
     }
     
-    func popHead() -> T? {
+    public func popHead() -> T? {
         let retVal = head?.value
         head = head?.next
         head?.prev = nil
         if head == nil { tail = nil }
-        if count > 0 { count -= 1 }
+        count -= count == 0 ? 0 : 1
         return retVal
     }
     
-    func printList() {
+    public func printList() {
         var listIter = head
         repeat {
             print(listIter?.value as Any)
@@ -124,120 +130,111 @@ class DoublyLinkedList<T> {
     }
 }
 
-class Queue<T> {
+public class Queue<T> {
     var list = SinglyLinkedList<T>()
-    private (set) var count = 0
+    public var count: Int { return list.count }
+    public var isEmpty: Bool { return list.isEmpty }
     
-    func enqueue(value: T) {
+    public init() { }
+    
+    public func enqueue(value: T) {
         list.appendToTail(value: value)
-        count += 1
     }
     
-    func dequeue() -> T? {
-        if count > 0 { count -= 1 }
+    public func dequeue() -> T? {
         return list.popHead()
     }
     
-    func peek() -> T? {
+    public func peek() -> T? {
         return list.head?.value
-    }
-    
-    func isEmpty() -> Bool {
-        return list.isEmpty
     }
 }
 
-class Dequeue<T> {
+public class Dequeue<T> {
     var list = DoublyLinkedList<T>()
-    private (set) var count = 0
+    public var count: Int { return list.count }
+    public var isEmpty: Bool { return list.isEmpty }
     
-    func pushBack(value: T) {
+    public init() { }
+    
+    public func pushBack(value: T) {
         list.appendToTail(value: value)
-        count += 1
     }
     
-    func pushFront(value: T) {
+    public func pushFront(value: T) {
         list.pushHead(value: value)
-        count += 1
     }
     
-    func popBack() -> T? {
-        if count > 0 { count -= 1 }
+    public func popBack() -> T? {
         return list.popTail()
     }
     
-    func popFront() -> T? {
-        if count > 0 { count -= 1 }
+    public func popFront() -> T? {
         return list.popHead()
     }
     
-    func peekFirst() -> T? {
+    public func peekFirst() -> T? {
         return list.head?.value
     }
     
-    func peekLast() -> T? {
-        return list.head?.value
-    }
-    
-    func isEmpty() -> Bool {
-        return list.isEmpty
+    public func peekLast() -> T? {
+        return list.tail?.value
     }
 }
 
-class Stack<T> {
+public class Stack<T> {
     var list = SinglyLinkedList<T>()
-    private (set) var count = 0
+    public var count: Int { return list.count }
+    public var isEmpty: Bool { return list.isEmpty }
     
-    func push(value: T) {
+    public init() { }
+    
+    public func push(value: T) {
         list.pushHead(value: value)
-        count += 1
     }
     
-    func pop() -> T? {
-        if count > 0 { count -= 1 }
+    public func pop() -> T? {
         return list.popHead()
     }
-    
-    func isEmpty() -> Bool {
-        return list.isEmpty
-    }
-    
-    func peek() -> T? {
+
+    public func peek() -> T? {
         return list.head?.value
     }
 }
 
-class MinHeap<T: Comparable> { //left and right are greater or equal to root
+public class MinHeap<T: Comparable> { //left and right are greater or equal to root
     var heap = [T]()
     private (set) var capacity: Int?
-    private (set) var size = 0
+    public var size: Int { return heap.count }
+    public var isEmpty: Bool { return heap.isEmpty }
     
-    required init(capacity: Int? = nil) {
+    public init() { }
+    
+    public required init(capacity: Int? = nil) {
         self.capacity = capacity
     }
     
-    func findMin() -> T? {
+    public func findMin() -> T? {
         return root
     }
     
-    func insert(valToInsert: T) { //o(logn)
-        if size == capacity {
+    public func insert(valToInsert: T) { //o(logn)
+        if heap.count == capacity {
             print("HEAP FULL")
             return
         }
         heap.append(valToInsert) //added at the end
         siftUp(childIndex: heap.count - 1)
-        size += 1
     }
     
-    func extractMin() -> T? { //o(logn)
+    public func extractMin() -> T? { //o(logn)
+        
         if heap.isEmpty { return nil }
         
         heap.swapAt(0, heap.count - 1)
         let retVal = heap.last ?? nil
         heap.removeLast()
         siftDown(parentIndex: 0)
-        size -= 1
         return retVal
     }
     
@@ -292,37 +289,39 @@ class MinHeap<T: Comparable> { //left and right are greater or equal to root
     }
 }
 
-class MaxHeap<T: Comparable> { //left and right are smaller or equal to root
+public class MaxHeap<T: Comparable> { //left and right are smaller or equal to root
     var heap = [T]()
     private (set) var capacity: Int?
-    private (set) var size = 0
+    public var size: Int { return heap.count }
+    public var isEmpty: Bool { return heap.isEmpty }
     
-    required init(capacity: Int? = nil) {
+    public init() { }
+    
+    public required init(capacity: Int? = nil) {
         self.capacity = capacity
     }
     
-    func findMax() -> T? {
+    public func findMax() -> T? {
         return root
     }
     
-    func insert(valToInsert: T) { //o(logn)
-        if size == capacity {
+    public func insert(valToInsert: T) { //o(logn)
+        if heap.count == capacity {
             print("HEAP FULL")
             return
         }
         heap.append(valToInsert) //added at the end
         siftUp(childIndex: heap.count - 1)
-        size += 1
     }
     
-    func extractMax() -> T? { //o(logn)
+    public func extractMax() -> T? { //o(logn)
+        
         if heap.isEmpty { return nil }
         
         heap.swapAt(0, heap.count - 1)
         let retVal = heap.last ?? nil
         heap.removeLast()
         siftDown(parentIndex: 0)
-        size -= 1
         return retVal
     }
     
