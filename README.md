@@ -32,7 +32,7 @@ All types conform to `Sequence` (linked lists) or `CustomStringConvertible`. `He
 
 ### Still has no direct stdlib equivalent
 
-- **`SinglyLinkedList<T>` / `DoublyLinkedList<T>`** — Swift's stdlib has never shipped a linked list. For most sequential storage `Array` or `swift-collections`' `Deque` will perform better due to cache locality, but pointer-chased lists remain useful as teaching references or when you need stable node identity.
+- **`SinglyLinkedList<T>` / `DoublyLinkedList<T>`** — Swift's stdlib has never shipped a linked list. `Array` or `swift-collections`' `Deque` will outperform pointer-chased nodes in almost every real use case due to cache locality. These types are kept as teaching references — classic CS implementations with no practical production advantage over the alternatives above.
 
 ---
 
