@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `0abe389` — fix: restrict Node link setters to internal; add missing description tests
+- Latest commit: `125785b` — docs(context): fix commit hash in CONTEXT.md
 - Branch: `master`
 
 ## Build Commands
@@ -71,7 +71,10 @@ All four higher-level types are superseded by better alternatives:
 
 ## Commit history
 ```
+125785b docs(context): fix commit hash in CONTEXT.md
 0abe389 fix: restrict Node link setters to internal; add missing description tests
+c42f57d docs: fix README inaccuracies — stack history, conformance note
+e8fdd77 docs(context): fix commit hash placeholder in CONTEXT.md
 a2dde0b fix: memory leak in DoublyLinkedList — DLLNode.prev must be weak
 d64723f docs: drop misleading 'stable node identity' claim for linked lists
 a846af4 docs: move Queue into superseded table, drop verbose justification

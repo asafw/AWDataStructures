@@ -10,7 +10,8 @@ applyTo: "**"
 ## Project overview
 
 A dependency-free Swift package of classic CS data structures. Originally
-written in 2020 when Swift's standard library had no queues, stacks, or heaps.
+written in 2020 when Swift's standard library had no linked lists, queues,
+or heaps (a Stack could be faked with Array but no dedicated type existed).
 Modernized in 2026 (v2.0): value semantics, copy-on-write, Sequence conformance,
 merged Heap type, real tests.
 
@@ -105,7 +106,7 @@ at construction.
 
 ```bash
 swift build
-swift test        # must show 37 passed, 0 failed
+swift test        # must show 41 passed, 0 failed
 ```
 
 ---
