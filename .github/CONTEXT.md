@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `<next>` — refactor: add AW prefix to all public types (breaking change)
+- Latest commit: `17f5cc1` — refactor: add AW prefix to all public types (breaking change)
 - Branch: `master`
 
 ## Build Commands
@@ -71,7 +71,7 @@ All four higher-level types are superseded by better alternatives:
 
 ## Commit history
 ```
-<next>   refactor: add AW prefix to all public types (breaking change)
+17f5cc1 refactor: add AW prefix to all public types (breaking change)
 dd4b8cc docs(context): sync session state — correct latest commit, full history, test count, project overview
 125785b docs(context): fix commit hash in CONTEXT.md
 0abe389 fix: restrict Node link setters to internal; add missing description tests
