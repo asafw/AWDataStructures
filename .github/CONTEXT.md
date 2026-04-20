@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `PENDING` — refactor: split tests into per-type files
+- Latest commit: `3da10ba` — refactor: split tests into per-type files
 - Branch: `master`
 
 ## Build Commands
@@ -73,7 +73,7 @@ All four higher-level types are superseded by better alternatives:
 
 ## Commit history
 ```
-PENDING  refactor: split tests into per-type files
+3da10ba refactor: split tests into per-type files
 1fc4285 refactor: split source into per-type files
 17f5cc1 refactor: add AW prefix to all public types (breaking change)
 dd4b8cc docs(context): sync session state — correct latest commit, full history, test count, project overview
