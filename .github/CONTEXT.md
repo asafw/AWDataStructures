@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `6f8f5ee` — docs: clarify swift-collections Deque as a Queue alternative
+- Latest commit: `85a171d` — docs: add AGENTS.md, .github/CONTEXT.md, Copilot instructions
 - Branch: `master`
 
 ## Build Commands
@@ -41,19 +41,23 @@ swift test
 - `SinglyLinkedList` and `DoublyLinkedList` conform to `Sequence` and `CustomStringConvertible`.
 - `Queue`, `Deque`, `Stack`, `Heap` conform to `CustomStringConvertible`.
 - `MinHeap<T>` / `MaxHeap<T>` are typealiases — they do **not** enforce order at the type system level. Always pass the correct `HeapOrder` at construction.
+- All `pop` / `extract` methods are marked `@discardableResult` — callers can ignore the return value without a compiler warning.
+- `SinglyLinkedList.pushHead` correctly sets `tail` when inserting into an empty list (bug fixed in v2.0).
+- `Dequeue` was renamed to `Deque` in v2.0 — this is a **breaking API change**. No backward-compat alias exists for the old name.
 
 ## Tests — 37 total, all passing
 | Suite | Count |
 |---|---|
 | `SinglyLinkedListTests` | 8 |
 | `DoublyLinkedListTests` | 8 |
-| `QueueTests` | 5 (includes CoW test) |
+| `QueueTests` | 4 (includes CoW test) |
 | `DequeTests` | 5 (includes CoW test) |
 | `StackTests` | 4 (includes CoW test) |
 | `HeapTests` | 8 |
 
 ## Commit history
 ```
+85a171d docs: add AGENTS.md, .github/CONTEXT.md, Copilot instructions
 6f8f5ee docs: clarify swift-collections Deque as a Queue alternative
 10c51f7 fix: correctness issues found in CS/DSA audit
 07c8fd2 refactor: v2.0 modernization

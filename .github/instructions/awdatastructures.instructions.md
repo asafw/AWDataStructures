@@ -50,6 +50,9 @@ AWDataStructures/
 Both conform to `Sequence` and `CustomStringConvertible`. Both expose a
 package-internal `copy() -> Self` method used for copy-on-write by higher-level types.
 
+> **Breaking change (v2.0):** The old `Dequeue<T>` type was renamed to `Deque<T>`
+> (correct spelling). No backward-compat alias exists.
+
 ### Value types (`struct`)
 
 | Type | Semantics | Key methods | Complexity |
@@ -84,6 +87,8 @@ at construction.
   inputs with the same logic (see `assertMinHeapOrder` / `assertMaxHeapOrder`).
 - **Value semantics for structs** — any `struct` that wraps a `class` backing
   store must implement CoW via `makeUnique()`. Test it with a copy-and-mutate test.
+- **`@discardableResult`** — all `pop` / `extract` / `dequeue` methods must be
+  marked `@discardableResult` so callers can ignore the return value without warnings.
 
 ---
 
