@@ -190,11 +190,11 @@ extension DoublyLinkedList: CustomStringConvertible {
 
 /// A FIFO queue backed by a singly-linked list, providing O(1) enqueue and O(1) dequeue.
 ///
-/// Swift's standard library has no built-in queue. `Array.removeFirst()` is
-/// O(n) due to element shifting, making it unsuitable as a queue backing store.
-/// This type provides true O(1) enqueue (at the tail) and O(1) dequeue (from
-/// the head). `swift-collections`'s `Deque<T>` is an excellent alternative —
-/// it also delivers O(1) at both ends with better cache performance.
+/// **Prefer `swift-collections`'s `Deque<T>` if you can take a dependency** —
+/// it covers everything this type does and has better cache performance.
+/// This type exists for zero-dependency environments where adding
+/// `swift-collections` is not an option. `Array.removeFirst()` is O(n)
+/// and is not a viable backing store for a queue.
 ///
 /// ### Complexity
 /// - `enqueue`: O(1)
