@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `a2dde0b` — fix: memory leak in DoublyLinkedList — DLLNode.prev must be weak
+- Latest commit: `0abe389` — fix: restrict Node link setters to internal; add missing description tests
 - Branch: `master`
 
 ## Build Commands
@@ -71,7 +71,7 @@ All four higher-level types are superseded by better alternatives:
 
 ## Commit history
 ```
-<next>   fix: restrict Node link setters to internal; add missing description tests
+0abe389 fix: restrict Node link setters to internal; add missing description tests
 a2dde0b fix: memory leak in DoublyLinkedList — DLLNode.prev must be weak
 d64723f docs: drop misleading 'stable node identity' claim for linked lists
 a846af4 docs: move Queue into superseded table, drop verbose justification
