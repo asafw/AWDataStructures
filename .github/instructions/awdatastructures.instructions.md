@@ -55,12 +55,12 @@ package-internal `copy() -> Self` method used for copy-on-write by higher-level 
 
 ### Value types (`struct`)
 
-| Type | Semantics | Key methods | Complexity |
-|---|---|---|---|
-| `Queue<T>` | FIFO | `enqueue(_:)`, `dequeue()`, `peek()` | O(1) all |
-| `Deque<T>` | Double-ended | `pushFront/Back`, `popFront/Back`, `peekFirst/Last` | O(1) all |
-| `Stack<T>` | LIFO | `push(_:)`, `pop()`, `peek()` | O(1) all |
-| `Heap<T: Comparable>` | Min or max binary heap | `insert(_:) -> Bool`, `extract() -> T?`, `peek()` | O(log n) insert/extract, O(1) peek |
+| Type | Semantics | Key methods | Complexity | Status |
+|---|---|---|---|---|
+| `Queue<T>` | FIFO | `enqueue(_:)`, `dequeue()`, `peek()` | O(1) all | Superseded by `swift-collections` `Deque<T>` |
+| `Deque<T>` | Double-ended | `pushFront/Back`, `popFront/Back`, `peekFirst/Last` | O(1) all | Superseded by `swift-collections` `Deque<T>` |
+| `Stack<T>` | LIFO | `push(_:)`, `pop()`, `peek()` | O(1) all | Superseded by `Array` |
+| `Heap<T: Comparable>` | Min or max binary heap | `insert(_:) -> Bool`, `extract() -> T?`, `peek()` | O(log n) insert/extract, O(1) peek | Superseded by `swift-collections` `Heap<T>` |
 
 `Queue`, `Deque`, `Stack` use **copy-on-write**: each mutating method calls
 `makeUnique()`, which deep-copies the backing linked list when the reference

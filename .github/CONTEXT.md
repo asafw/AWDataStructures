@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `85a171d` — docs: add AGENTS.md, .github/CONTEXT.md, Copilot instructions
+- Latest commit: `d64723f` — docs: drop misleading 'stable node identity' claim for linked lists
 - Branch: `master`
 
 ## Build Commands
@@ -20,6 +20,18 @@ swift test
 - No external dependencies
 - No platform restriction — pure Swift stdlib, builds on iOS, macOS, Linux, Windows, WASM
 - Zero imports in source (no Foundation, no Darwin, no platform frameworks)
+
+## Relevance (2026)
+All four higher-level types are superseded by better alternatives:
+
+| Type | Superseded by |
+|---|---|
+| `Queue<T>` | `swift-collections` `Deque<T>` — superset, better cache performance |
+| `Deque<T>` | `swift-collections` `Deque<T>` — better cache locality |
+| `Stack<T>` | `Array` + `.append()` / `.popLast()` — idiomatic Swift |
+| `Heap<T>` | `swift-collections` `Heap<T>` — richer API |
+
+`SinglyLinkedList` and `DoublyLinkedList` have no stdlib equivalent but have no practical production advantage over `Array`/`swift-collections` `Deque`. Kept as teaching references only.
 
 ## Types
 
@@ -57,6 +69,10 @@ swift test
 
 ## Commit history
 ```
+d64723f docs: drop misleading 'stable node identity' claim for linked lists
+a846af4 docs: move Queue into superseded table, drop verbose justification
+c3c7284 docs: clarify Queue is a zero-dependency fallback, swift-collections Deque is preferred
+cdd1932 docs(context): fix stale commit, wrong QueueTests count, add missing session history
 85a171d docs: add AGENTS.md, .github/CONTEXT.md, Copilot instructions
 6f8f5ee docs: clarify swift-collections Deque as a Queue alternative
 10c51f7 fix: correctness issues found in CS/DSA audit
