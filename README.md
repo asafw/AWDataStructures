@@ -32,7 +32,7 @@ All types conform to `Sequence` (linked lists) or `CustomStringConvertible`. `He
 ### Still has no direct stdlib equivalent
 
 - **`SinglyLinkedList<T>` / `DoublyLinkedList<T>`** — Swift's stdlib has never shipped a linked list. For most sequential storage `Array` or `swift-collections`' `Deque` will perform better due to cache locality, but pointer-chased lists remain useful as teaching references or when you need stable node identity.
-- **`Queue<T>`** — Swift has no built-in queue. `Array.removeFirst()` is O(n) due to element shifting. This `Queue` delivers true O(1) dequeue. If `swift-collections` is already a dependency, use its `Deque` instead.
+- **`Queue<T>`** — Swift has no built-in queue. `Array.removeFirst()` is O(n) due to element shifting, making it unsuitable as a queue backing store. This `Queue` delivers true O(1) enqueue and dequeue. `swift-collections`'s `Deque<T>` is an excellent drop-in alternative — it also provides O(1) at both ends with better cache performance.
 
 ---
 
