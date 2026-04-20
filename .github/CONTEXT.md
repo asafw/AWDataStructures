@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `125785b` — docs(context): fix commit hash in CONTEXT.md
+- Latest commit: `<next>` — refactor: add AW prefix to all public types (breaking change)
 - Branch: `master`
 
 ## Build Commands
@@ -31,7 +31,7 @@ All four higher-level types are superseded by better alternatives:
 | `Stack<T>` | `Array` + `.append()` / `.popLast()` — idiomatic Swift |
 | `Heap<T>` | `swift-collections` `Heap<T>` — richer API |
 
-`SinglyLinkedList` and `DoublyLinkedList` have no stdlib equivalent but have no practical production advantage over `Array`/`swift-collections` `Deque`. Kept as teaching references only.
+`AWSinglyLinkedList` and `AWDoublyLinkedList` have no stdlib equivalent but have no practical production advantage over `Array`/`swift-collections` `AWDeque`. Kept as teaching references only.
 
 ## Types
 
@@ -39,24 +39,24 @@ All four higher-level types are superseded by better alternatives:
 |---|---|---|---|
 | `SinglyLinkedList<T>` | `final class` | Pointer-chased nodes | Reference (class) |
 | `DoublyLinkedList<T>` | `final class` | Pointer-chased nodes | Reference (class) |
-| `Queue<T>` | `struct` | `SinglyLinkedList` (CoW) | Value ✓ |
-| `Deque<T>` | `struct` | `DoublyLinkedList` (CoW) | Value ✓ |
-| `Stack<T>` | `struct` | `SinglyLinkedList` (CoW) | Value ✓ |
+| `Queue<T>` | `struct` | `AWSinglyLinkedList` (CoW) | Value ✓ |
+| `Deque<T>` | `struct` | `AWDoublyLinkedList` (CoW) | Value ✓ |
+| `Stack<T>` | `struct` | `AWSinglyLinkedList` (CoW) | Value ✓ |
 | `Heap<T: Comparable>` | `struct` | `[T]` array | Value ✓ |
-| `HeapOrder` | `enum` | — | Value ✓ |
+| `AWHeapOrder` | `enum` | — | Value ✓ |
 | `MinHeap<T>` | typealias for `Heap<T>` | — | does not enforce order |
 | `MaxHeap<T>` | typealias for `Heap<T>` | — | does not enforce order |
 
 ## Key invariants
-- `Queue`, `Deque`, `Stack` use copy-on-write: `makeUnique()` calls `list.copy()` (O(n) deep copy) before any mutation when reference count > 1.
+- `AWQueue`, `AWDeque`, `AWStack` use copy-on-write: `makeUnique()` calls `list.copy()` (O(n) deep copy) before any mutation when reference count > 1.
 - `Heap.insert()` returns `Bool`: `false` when capacity is reached (never silently drops).
-- `SinglyLinkedList` and `DoublyLinkedList` conform to `Sequence` and `CustomStringConvertible`.
-- `Queue`, `Deque`, `Stack`, `Heap` conform to `CustomStringConvertible`.
-- `MinHeap<T>` / `MaxHeap<T>` are typealiases — they do **not** enforce order at the type system level. Always pass the correct `HeapOrder` at construction.
+- `AWSinglyLinkedList` and `AWDoublyLinkedList` conform to `Sequence` and `CustomStringConvertible`.
+- `AWQueue`, `AWDeque`, `AWStack`, `AWHeap` conform to `CustomStringConvertible`.
+- `MinHeap<T>` / `MaxHeap<T>` are typealiases — they do **not** enforce order at the type system level. Always pass the correct `AWHeapOrder` at construction.
 - All `pop` / `extract` methods are marked `@discardableResult` — callers can ignore the return value without a compiler warning.
 - `SinglyLinkedList.pushHead` correctly sets `tail` when inserting into an empty list (bug fixed in v2.0).
-- `Dequeue` was renamed to `Deque` in v2.0 — this is a **breaking API change**. No backward-compat alias exists for the old name.
-- **`DLLNode.prev` is `weak var`** — breaks ARC retain cycles between adjacent nodes. Without this, releasing a `DoublyLinkedList` (or `Deque`) with ≥ 2 nodes would leak the entire node chain because the bidirectional strong references prevent any node's reference count from reaching zero.
+- `Dequeue` was renamed to `AWDeque` in v2.0 — this is a **breaking API change**. No backward-compat alias exists for the old name.
+- **`DLLNode.prev` is `weak var`** — breaks ARC retain cycles between adjacent nodes. Without this, releasing a `AWDoublyLinkedList` (or `AWDeque`) with ≥ 2 nodes would leak the entire node chain because the bidirectional strong references prevent any node's reference count from reaching zero.
 - **`Node.next` and `DLLNode.next`/`DLLNode.prev` are `public internal(set)`** — external consumers can traverse nodes by reading these properties, but cannot write to them. Writing from outside the module would silently corrupt `count`, `head`, and `tail` invariants.
 
 ## Tests — 41 total, all passing
@@ -71,6 +71,8 @@ All four higher-level types are superseded by better alternatives:
 
 ## Commit history
 ```
+<next>   refactor: add AW prefix to all public types (breaking change)
+dd4b8cc docs(context): sync session state — correct latest commit, full history, test count, project overview
 125785b docs(context): fix commit hash in CONTEXT.md
 0abe389 fix: restrict Node link setters to internal; add missing description tests
 c42f57d docs: fix README inaccuracies — stack history, conformance note
@@ -89,6 +91,6 @@ cdd1932 docs(context): fix stale commit, wrong QueueTests count, add missing ses
 ```
 
 ## Pending / known limitations
-- `MinHeap<T>` / `MaxHeap<T>` typealiases do not prevent constructing a `MinHeap` with `order: .max`. A future improvement could be separate concrete types or a phantom-type approach.
+- `MinHeap<T>` / `MaxHeap<T>` typealiases do not prevent constructing a `AWMinHeap` with `order: .max`. A future improvement could be separate concrete types or a phantom-type approach.
 - No `buildHeap` init (heapify in O(n)) — all insertions are O(log n) individually.
-- `Heap` exposes `size` while all other types (`Queue`, `Deque`, `Stack`) expose `count` — minor API inconsistency. Changing it is a breaking API change, so deferred.
+- `AWHeap` exposes `size` while all other types (`AWQueue`, `AWDeque`, `AWStack`) expose `count` — minor API inconsistency. Changing it is a breaking API change, so deferred.

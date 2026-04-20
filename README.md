@@ -1,6 +1,6 @@
 # AWDataStructures
 
-A Swift package of classic CS data structures. Written in 2020 when Swift's standard library had no linked lists, queues, or heaps (a `Stack` could be faked with `Array`, but no dedicated type existed). The package has been kept up-to-date and modernized, but **most of what it provides now has better-supported native or community alternatives** — see the relevance notes below.
+A Swift package of classic CS data structures. Written in 2020 when Swift's standard library had no linked lists, queues, or heaps (a `AWStack` could be faked with `Array`, but no dedicated type existed). The package has been kept up-to-date and modernized, but **most of what it provides now has better-supported native or community alternatives** — see the relevance notes below.
 
 ---
 
@@ -10,12 +10,12 @@ A Swift package of classic CS data structures. Written in 2020 when Swift's stan
 |---|---|---|
 | `SinglyLinkedList<T>` | Linked list with O(1) head push/pop and O(1) tail append | push/pop O(1) |
 | `DoublyLinkedList<T>` | Linked list with O(1) access at both ends | push/pop O(1) |
-| `Queue<T>` | FIFO queue backed by `SinglyLinkedList` | enqueue/dequeue O(1) |
-| `Deque<T>` | Double-ended queue backed by `DoublyLinkedList` | all ops O(1) |
-| `Stack<T>` | LIFO stack backed by `SinglyLinkedList` | push/pop O(1) |
+| `Queue<T>` | FIFO queue backed by `AWSinglyLinkedList` | enqueue/dequeue O(1) |
+| `Deque<T>` | Double-ended queue backed by `AWDoublyLinkedList` | all ops O(1) |
+| `Stack<T>` | LIFO stack backed by `AWSinglyLinkedList` | push/pop O(1) |
 | `Heap<T: Comparable>` | Binary heap, configurable as min-heap or max-heap | insert/extract O(log n) |
 
-`SinglyLinkedList` and `DoublyLinkedList` conform to `Sequence` and `CustomStringConvertible`. `Queue`, `Deque`, `Stack`, and `Heap` conform to `CustomStringConvertible` only. All four higher-level types are value types (`struct`). `MinHeap<T>` and `MaxHeap<T>` are typealiases for `Heap<T>`.
+`AWSinglyLinkedList` and `AWDoublyLinkedList` conform to `Sequence` and `CustomStringConvertible`. `AWQueue`, `AWDeque`, `AWStack`, and `AWHeap` conform to `CustomStringConvertible` only. All four higher-level types are value types (`struct`). `MinHeap<T>` and `MaxHeap<T>` are typealiases for `Heap<T>`.
 
 ---
 
@@ -32,7 +32,7 @@ A Swift package of classic CS data structures. Written in 2020 when Swift's stan
 
 ### Still has no direct stdlib equivalent
 
-- **`SinglyLinkedList<T>` / `DoublyLinkedList<T>`** — Swift's stdlib has never shipped a linked list. `Array` or `swift-collections`' `Deque` will outperform pointer-chased nodes in almost every real use case due to cache locality. These types are kept as teaching references — classic CS implementations with no practical production advantage over the alternatives above.
+- **`SinglyLinkedList<T>` / `DoublyLinkedList<T>`** — Swift's stdlib has never shipped a linked list. `Array` or `swift-collections`' `AWDeque` will outperform pointer-chased nodes in almost every real use case due to cache locality. These types are kept as teaching references — classic CS implementations with no practical production advantage over the alternatives above.
 
 ---
 
@@ -53,7 +53,7 @@ Then add `"AWDataStructures"` to your target's dependencies.
 ### Queue
 
 ```swift
-var q = Queue<Int>()
+var q = AWQueue<Int>()
 q.enqueue(1)
 q.enqueue(2)
 q.dequeue()   // → 1
@@ -63,7 +63,7 @@ q.peek()      // → 2
 ### Deque
 
 ```swift
-var d = Deque<String>()
+var d = AWDeque<String>()
 d.pushBack("b")
 d.pushFront("a")
 d.pushBack("c")
@@ -74,7 +74,7 @@ d.popBack()   // → "c"
 ### Stack
 
 ```swift
-var s = Stack<Int>()
+var s = AWStack<Int>()
 s.push(1)
 s.push(2)
 s.pop()   // → 2
@@ -84,14 +84,14 @@ s.peek()  // → 1
 ### Heap (min or max)
 
 ```swift
-var minHeap = Heap<Int>(order: .min)
+var minHeap = AWHeap<Int>(order: .min)
 minHeap.insert(5)
 minHeap.insert(1)
 minHeap.insert(3)
 minHeap.extract()  // → 1
 minHeap.peek()     // → 3
 
-var maxHeap = Heap<Int>(order: .max, capacity: 10)
+var maxHeap = AWHeap<Int>(order: .max, capacity: 10)
 maxHeap.insert(5)
 maxHeap.extract()  // → 5
 ```
@@ -99,7 +99,7 @@ maxHeap.extract()  // → 5
 ### SinglyLinkedList
 
 ```swift
-let list = SinglyLinkedList<Int>()
+let list = AWSinglyLinkedList<Int>()
 list.appendToTail(value: 1)
 list.appendToTail(value: 2)
 list.pushHead(value: 0)
@@ -120,12 +120,12 @@ print(list)  // → "0 -> 1 -> 2"
 
 - **v1.0 (2020)** — Original release. All types were `class`-based. Target: iOS 13+, Swift 5.3.
 - **v2.0 (2026)** — Major modernization:
-  - `Queue`, `Deque`, `Stack` converted to `struct` (value semantics).
-  - `Dequeue` renamed to `Deque` (correct spelling).
-  - `MinHeap` and `MaxHeap` merged into a single generic `Heap<T>` parameterized by `HeapOrder`; typealiases retained for compatibility.
+  - `AWQueue`, `AWDeque`, `AWStack` converted to `struct` (value semantics).
+  - `Dequeue` renamed to `AWDeque` (correct spelling).
+  - `AWMinHeap` and `AWMaxHeap` merged into a single generic `Heap<T>` parameterized by `AWHeapOrder`; typealiases retained for compatibility.
   - Heap capacity violations now return `Bool` instead of printing a message.
   - `printList()` removed; all types now conform to `CustomStringConvertible`.
-  - `Sequence` conformance added to `SinglyLinkedList` and `DoublyLinkedList`.
+  - `Sequence` conformance added to `AWSinglyLinkedList` and `AWDoublyLinkedList`.
   - Platform restriction removed; package builds on any Swift 5.9+ platform.
   - Real unit tests added (was previously boilerplate-only).
 

@@ -5,29 +5,29 @@
 //  Copyright © 2020 Asaf Weinberg. All rights reserved.
 //
 
-// MARK: - SinglyLinkedList
+// MARK: - AWSinglyLinkedList
 
 /// A node in a singly-linked list.
-public final class Node<T> {
+public final class AWNode<T> {
     public var value: T
     /// The next node. Readable publicly; writable only within the module to
     /// prevent external callers from corrupting list invariants (count, tail).
-    public internal(set) var next: Node?
+    public internal(set) var next: AWNode?
 
     public init(value: T) { self.value = value }
 }
 
-// MARK: - DoublyLinkedList
+// MARK: - AWDoublyLinkedList
 
 /// A node in a doubly-linked list.
-public final class DLLNode<T> {
+public final class AWDLLNode<T> {
     public var value: T
     /// Weak to break the ARC retain cycle inherent in bidirectional node links.
     /// Readable publicly; writable only within the module.
-    public internal(set) weak var prev: DLLNode?
+    public internal(set) weak var prev: AWDLLNode?
     /// Readable publicly; writable only within the module to prevent external
     /// callers from corrupting list invariants (count, head, tail).
-    public internal(set) var next: DLLNode?
+    public internal(set) var next: AWDLLNode?
 
     public init(value: T) { self.value = value }
 }
@@ -35,14 +35,14 @@ public final class DLLNode<T> {
 /// A singly-linked list with O(1) head push/pop and O(1) tail append.
 ///
 /// Swift's standard library has no built-in linked list. This type remains
-/// useful as the O(1) backing store for `Queue` — unlike `Array.removeFirst()`
+/// useful as the O(1) backing store for `AWQueue` — unlike `Array.removeFirst()`
 /// which is O(n).
 ///
 /// For most other sequential storage needs, prefer `Array` or, if you need
-/// O(1) both-end access, the `Deque` type from `swift-collections`.
-public final class SinglyLinkedList<T> {
-    public private(set) var head: Node<T>?
-    public private(set) var tail: Node<T>?
+/// O(1) both-end access, the `AWDeque` type from `swift-collections`.
+public final class AWSinglyLinkedList<T> {
+    public private(set) var head: AWNode<T>?
+    public private(set) var tail: AWNode<T>?
     public private(set) var count = 0
     public var isEmpty: Bool { count == 0 }
 
@@ -50,7 +50,7 @@ public final class SinglyLinkedList<T> {
 
     /// Appends `value` to the tail in O(1).
     public func appendToTail(value: T) {
-        let newNode = Node<T>(value: value)
+        let newNode = AWNode<T>(value: value)
         if let tailNode = tail {
             tailNode.next = newNode
             tail = newNode
@@ -63,7 +63,7 @@ public final class SinglyLinkedList<T> {
 
     /// Inserts `value` at the head in O(1).
     public func pushHead(value: T) {
-        let newNode = Node<T>(value: value)
+        let newNode = AWNode<T>(value: value)
         newNode.next = head
         head = newNode
         if tail == nil { tail = newNode }
@@ -81,14 +81,14 @@ public final class SinglyLinkedList<T> {
     }
 
     /// Returns a deep copy of this list in O(n).
-    func copy() -> SinglyLinkedList<T> {
-        let newList = SinglyLinkedList<T>()
+    func copy() -> AWSinglyLinkedList<T> {
+        let newList = AWSinglyLinkedList<T>()
         for value in self { newList.appendToTail(value: value) }
         return newList
     }
 }
 
-extension SinglyLinkedList: Sequence {
+extension AWSinglyLinkedList: Sequence {
     public func makeIterator() -> AnyIterator<T> {
         var current = head
         return AnyIterator {
@@ -98,7 +98,7 @@ extension SinglyLinkedList: Sequence {
     }
 }
 
-extension SinglyLinkedList: CustomStringConvertible {
+extension AWSinglyLinkedList: CustomStringConvertible {
     public var description: String {
         map { "\($0)" }.joined(separator: " -> ")
     }
@@ -107,12 +107,12 @@ extension SinglyLinkedList: CustomStringConvertible {
 /// A doubly-linked list with O(1) push/pop at both ends.
 ///
 /// Swift's standard library has no built-in linked list. For O(1) both-end
-/// access consider the `Deque` type from `swift-collections`, which has
+/// access consider the `AWDeque` type from `swift-collections`, which has
 /// better cache locality. This type remains available as a foundation for
-/// the `Deque` type below.
-public final class DoublyLinkedList<T> {
-    public private(set) var head: DLLNode<T>?
-    public private(set) var tail: DLLNode<T>?
+/// the `AWDeque` type below.
+public final class AWDoublyLinkedList<T> {
+    public private(set) var head: AWDLLNode<T>?
+    public private(set) var tail: AWDLLNode<T>?
     public private(set) var count = 0
     public var isEmpty: Bool { count == 0 }
 
@@ -120,7 +120,7 @@ public final class DoublyLinkedList<T> {
 
     /// Appends `value` to the tail in O(1).
     public func appendToTail(value: T) {
-        let newNode = DLLNode<T>(value: value)
+        let newNode = AWDLLNode<T>(value: value)
         if let tailNode = tail {
             tailNode.next = newNode
             newNode.prev = tailNode
@@ -134,7 +134,7 @@ public final class DoublyLinkedList<T> {
 
     /// Inserts `value` at the head in O(1).
     public func pushHead(value: T) {
-        let newNode = DLLNode<T>(value: value)
+        let newNode = AWDLLNode<T>(value: value)
         if let headNode = head {
             headNode.prev = newNode
             newNode.next = headNode
@@ -169,14 +169,14 @@ public final class DoublyLinkedList<T> {
     }
 
     /// Returns a deep copy of this list in O(n).
-    func copy() -> DoublyLinkedList<T> {
-        let newList = DoublyLinkedList<T>()
+    func copy() -> AWDoublyLinkedList<T> {
+        let newList = AWDoublyLinkedList<T>()
         for value in self { newList.appendToTail(value: value) }
         return newList
     }
 }
 
-extension DoublyLinkedList: Sequence {
+extension AWDoublyLinkedList: Sequence {
     public func makeIterator() -> AnyIterator<T> {
         var current = head
         return AnyIterator {
@@ -186,17 +186,17 @@ extension DoublyLinkedList: Sequence {
     }
 }
 
-extension DoublyLinkedList: CustomStringConvertible {
+extension AWDoublyLinkedList: CustomStringConvertible {
     public var description: String {
         map { "\($0)" }.joined(separator: " <-> ")
     }
 }
 
-// MARK: - Queue
+// MARK: - AWQueue
 
 /// A FIFO queue backed by a singly-linked list, providing O(1) enqueue and O(1) dequeue.
 ///
-/// Prefer `swift-collections`'s `Deque<T>` — it is a superset of this type
+/// Prefer `swift-collections`'s `AWDeque<T>` — it is a superset of this type
 /// with better cache performance. Use this type only when zero external
 /// dependencies is a hard requirement.
 ///
@@ -205,8 +205,8 @@ extension DoublyLinkedList: CustomStringConvertible {
 /// - `dequeue`: O(1)
 /// - `peek`: O(1)
 /// - Space: O(n)
-public struct Queue<T> {
-    private var list = SinglyLinkedList<T>()
+public struct AWQueue<T> {
+    private var list = AWSinglyLinkedList<T>()
     public var count: Int { list.count }
     public var isEmpty: Bool { list.isEmpty }
 
@@ -238,25 +238,25 @@ public struct Queue<T> {
     }
 }
 
-extension Queue: CustomStringConvertible {
+extension AWQueue: CustomStringConvertible {
     public var description: String { list.description }
 }
 
-// MARK: - Deque
+// MARK: - AWDeque
 
 /// A double-ended queue backed by a doubly-linked list with O(1) access at both ends.
 ///
 /// Previously named `Dequeue` (a misspelling). The correct name for the
-/// data structure is `Deque`. If you already depend on `swift-collections`,
-/// prefer its `Deque<T>` which has better cache performance.
+/// data structure is `AWDeque`. If you already depend on `swift-collections`,
+/// prefer its `AWDeque<T>` which has better cache performance.
 ///
 /// ### Complexity
 /// - `pushFront` / `pushBack`: O(1)
 /// - `popFront` / `popBack`: O(1)
 /// - `peekFirst` / `peekLast`: O(1)
 /// - Space: O(n)
-public struct Deque<T> {
-    private var list = DoublyLinkedList<T>()
+public struct AWDeque<T> {
+    private var list = AWDoublyLinkedList<T>()
     public var count: Int { list.count }
     public var isEmpty: Bool { list.isEmpty }
 
@@ -302,11 +302,11 @@ public struct Deque<T> {
     public func peekLast() -> T? { list.tail?.value }
 }
 
-extension Deque: CustomStringConvertible {
+extension AWDeque: CustomStringConvertible {
     public var description: String { list.description }
 }
 
-// MARK: - Stack
+// MARK: - AWStack
 
 /// A LIFO stack backed by a singly-linked list.
 ///
@@ -317,8 +317,8 @@ extension Deque: CustomStringConvertible {
 /// ### Complexity
 /// - `push` / `pop` / `peek`: O(1)
 /// - Space: O(n)
-public struct Stack<T> {
-    private var list = SinglyLinkedList<T>()
+public struct AWStack<T> {
+    private var list = AWSinglyLinkedList<T>()
     public var count: Int { list.count }
     public var isEmpty: Bool { list.isEmpty }
 
@@ -350,14 +350,14 @@ public struct Stack<T> {
     }
 }
 
-extension Stack: CustomStringConvertible {
+extension AWStack: CustomStringConvertible {
     public var description: String { list.description }
 }
 
-// MARK: - Heap
+// MARK: - AWHeap
 
-/// Specifies the ordering for a `Heap`.
-public enum HeapOrder {
+/// Specifies the ordering for a `AWHeap`.
+public enum AWHeapOrder {
     /// The smallest element is at the root (min-heap).
     case min
     /// The largest element is at the root (max-heap).
@@ -366,18 +366,18 @@ public enum HeapOrder {
 
 /// A binary heap that can operate as either a min-heap or a max-heap.
 ///
-/// - `HeapOrder.min` — root is always the smallest element.
-/// - `HeapOrder.max` — root is always the largest element.
+/// - `AWHeapOrder.min` — root is always the smallest element.
+/// - `AWHeapOrder.max` — root is always the largest element.
 ///
-/// `MinHeap<T>` and `MaxHeap<T>` typealiases are provided so existing call
-/// sites continue to compile. Create them with `Heap(order: .min)` or
-/// `Heap(order: .max)`.
+/// `AWMinHeap<T>` and `AWMaxHeap<T>` typealiases are provided so existing call
+/// sites continue to compile. Create them with `AWHeap(order: .min)` or
+/// `AWHeap(order: .max)`.
 ///
-/// - Important: `MinHeap<T>` and `MaxHeap<T>` are typealiases for `Heap<T>`
+/// - Important: `AWMinHeap<T>` and `AWMaxHeap<T>` are typealiases for `AWHeap<T>`
 ///   and do not enforce the order at the type level. Always pass the
-///   correct `HeapOrder` at construction time.
+///   correct `AWHeapOrder` at construction time.
 ///
-/// If you already depend on `swift-collections`, prefer its `Heap<T>`.
+/// If you already depend on `swift-collections`, prefer its `AWHeap<T>`.
 /// This type is kept as a dependency-free alternative.
 ///
 /// ### Complexity
@@ -388,15 +388,15 @@ public enum HeapOrder {
 ///
 /// - Note: Insertion beyond `capacity` returns `false` rather than silently
 ///   dropping values.
-public struct Heap<T: Comparable> {
-    public let order: HeapOrder
+public struct AWHeap<T: Comparable> {
+    public let order: AWHeapOrder
     public private(set) var capacity: Int?
     private var storage: [T] = []
 
     public var size: Int { storage.count }
     public var isEmpty: Bool { storage.isEmpty }
 
-    public init(order: HeapOrder, capacity: Int? = nil) {
+    public init(order: AWHeapOrder, capacity: Int? = nil) {
         self.order = order
         self.capacity = capacity
     }
@@ -457,20 +457,20 @@ public struct Heap<T: Comparable> {
     }
 }
 
-extension Heap: CustomStringConvertible {
+extension AWHeap: CustomStringConvertible {
     public var description: String {
-        "\(order == .min ? "MinHeap" : "MaxHeap")\(storage)"
+        "\(order == .min ? "AWMinHeap" : "AWMaxHeap")\(storage)"
     }
 }
 
 /// A min-heap: root is always the smallest element.
-/// - Note: This is a typealias for `Heap<T>`. The order is not enforced by
-///   the type system; you must pass `HeapOrder.min` at construction:
-///   `var h: MinHeap<Int> = Heap(order: .min)`
-public typealias MinHeap<T: Comparable> = Heap<T>
+/// - Note: This is a typealias for `AWHeap<T>`. The order is not enforced by
+///   the type system; you must pass `AWHeapOrder.min` at construction:
+///   `var h: AWMinHeap<Int> = AWHeap(order: .min)`
+public typealias AWMinHeap<T: Comparable> = AWHeap<T>
 
 /// A max-heap: root is always the largest element.
-/// - Note: This is a typealias for `Heap<T>`. The order is not enforced by
-///   the type system; you must pass `HeapOrder.max` at construction:
-///   `var h: MaxHeap<Int> = Heap(order: .max)`
-public typealias MaxHeap<T: Comparable> = Heap<T>
+/// - Note: This is a typealias for `AWHeap<T>`. The order is not enforced by
+///   the type system; you must pass `AWHeapOrder.max` at construction:
+///   `var h: AWMaxHeap<Int> = AWHeap(order: .max)`
+public typealias AWMaxHeap<T: Comparable> = AWHeap<T>

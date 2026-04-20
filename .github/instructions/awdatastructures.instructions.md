@@ -72,11 +72,11 @@ package-internal `copy() -> Self` method used for copy-on-write by higher-level 
 | `Stack<T>` | LIFO | `push(_:)`, `pop()`, `peek()` | O(1) all | Superseded by `Array` |
 | `Heap<T: Comparable>` | Min or max binary heap | `insert(_:) -> Bool`, `extract() -> T?`, `peek()` | O(log n) insert/extract, O(1) peek | Superseded by `swift-collections` `Heap<T>` |
 
-`Queue`, `Deque`, `Stack` use **copy-on-write**: each mutating method calls
+`AWQueue`, `AWDeque`, `AWStack` use **copy-on-write**: each mutating method calls
 `makeUnique()`, which deep-copies the backing linked list when the reference
 count is > 1.
 
-`Heap` is backed by a plain `[T]` array — no CoW wrapper needed.
+`AWHeap` is backed by a plain `[T]` array — no CoW wrapper needed.
 
 `MinHeap<T>` and `MaxHeap<T>` are typealiases for `Heap<T>`. They do **not**
 enforce order at compile time. Always pass `HeapOrder.min` or `HeapOrder.max`

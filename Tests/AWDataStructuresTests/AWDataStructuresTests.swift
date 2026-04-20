@@ -1,12 +1,12 @@
 import XCTest
 @testable import AWDataStructures
 
-// MARK: - SinglyLinkedList Tests
+// MARK: - AWSinglyLinkedList Tests
 
-final class SinglyLinkedListTests: XCTestCase {
+final class AWSinglyLinkedListTests: XCTestCase {
 
     func testEmptyListProperties() {
-        let list = SinglyLinkedList<Int>()
+        let list = AWSinglyLinkedList<Int>()
         XCTAssertTrue(list.isEmpty, "New list should be empty")
         XCTAssertEqual(list.count, 0)
         XCTAssertNil(list.head)
@@ -14,7 +14,7 @@ final class SinglyLinkedListTests: XCTestCase {
     }
 
     func testAppendToTailUpdatesHeadTailCount() {
-        let list = SinglyLinkedList<Int>()
+        let list = AWSinglyLinkedList<Int>()
         list.appendToTail(value: 1)
         XCTAssertEqual(list.head?.value, 1)
         XCTAssertEqual(list.tail?.value, 1)
@@ -27,7 +27,7 @@ final class SinglyLinkedListTests: XCTestCase {
     }
 
     func testPushHeadUpdatesHeadTailCount() {
-        let list = SinglyLinkedList<Int>()
+        let list = AWSinglyLinkedList<Int>()
         list.pushHead(value: 1)
         XCTAssertEqual(list.head?.value, 1)
         XCTAssertEqual(list.tail?.value, 1)
@@ -39,7 +39,7 @@ final class SinglyLinkedListTests: XCTestCase {
     }
 
     func testPopHeadReturnsValuesInOrder() {
-        let list = SinglyLinkedList<Int>()
+        let list = AWSinglyLinkedList<Int>()
         list.pushHead(value: 1)
         list.pushHead(value: 2)
         XCTAssertEqual(list.popHead(), 2)
@@ -48,13 +48,13 @@ final class SinglyLinkedListTests: XCTestCase {
     }
 
     func testPopHeadOnEmptyListReturnsNilAndLeavesCountZero() {
-        let list = SinglyLinkedList<Int>()
+        let list = AWSinglyLinkedList<Int>()
         XCTAssertNil(list.popHead())
         XCTAssertEqual(list.count, 0)
     }
 
     func testPopHeadClearsHeadAndTailWhenLastNodeRemoved() {
-        let list = SinglyLinkedList<Int>()
+        let list = AWSinglyLinkedList<Int>()
         list.appendToTail(value: 42)
         list.popHead()
         XCTAssertNil(list.head)
@@ -63,29 +63,29 @@ final class SinglyLinkedListTests: XCTestCase {
     }
 
     func testSequenceIteration() {
-        let list = SinglyLinkedList<Int>()
+        let list = AWSinglyLinkedList<Int>()
         [1, 2, 3].forEach { list.appendToTail(value: $0) }
         XCTAssertEqual(Array(list), [1, 2, 3])
     }
 
     func testCustomStringConvertible() {
-        let list = SinglyLinkedList<Int>()
+        let list = AWSinglyLinkedList<Int>()
         [1, 2, 3].forEach { list.appendToTail(value: $0) }
         XCTAssertEqual(list.description, "1 -> 2 -> 3")
     }
 
     func testDescriptionEmptyList() {
-        let list = SinglyLinkedList<Int>()
+        let list = AWSinglyLinkedList<Int>()
         XCTAssertEqual(list.description, "")
     }
 }
 
-// MARK: - DoublyLinkedList Tests
+// MARK: - AWDoublyLinkedList Tests
 
-final class DoublyLinkedListTests: XCTestCase {
+final class AWDoublyLinkedListTests: XCTestCase {
 
     func testEmptyListProperties() {
-        let list = DoublyLinkedList<Int>()
+        let list = AWDoublyLinkedList<Int>()
         XCTAssertTrue(list.isEmpty)
         XCTAssertEqual(list.count, 0)
         XCTAssertNil(list.head)
@@ -93,7 +93,7 @@ final class DoublyLinkedListTests: XCTestCase {
     }
 
     func testAppendToTail() {
-        let list = DoublyLinkedList<Int>()
+        let list = AWDoublyLinkedList<Int>()
         list.appendToTail(value: 1)
         list.appendToTail(value: 2)
         XCTAssertEqual(list.head?.value, 1)
@@ -102,7 +102,7 @@ final class DoublyLinkedListTests: XCTestCase {
     }
 
     func testPushHead() {
-        let list = DoublyLinkedList<Int>()
+        let list = AWDoublyLinkedList<Int>()
         list.pushHead(value: 1)
         list.pushHead(value: 2)
         XCTAssertEqual(list.head?.value, 2)
@@ -110,7 +110,7 @@ final class DoublyLinkedListTests: XCTestCase {
     }
 
     func testPopTailReturnsValuesInOrder() {
-        let list = DoublyLinkedList<Int>()
+        let list = AWDoublyLinkedList<Int>()
         list.appendToTail(value: 1)
         list.appendToTail(value: 2)
         XCTAssertEqual(list.popTail(), 2)
@@ -119,7 +119,7 @@ final class DoublyLinkedListTests: XCTestCase {
     }
 
     func testPopHeadReturnsValuesInOrder() {
-        let list = DoublyLinkedList<Int>()
+        let list = AWDoublyLinkedList<Int>()
         list.appendToTail(value: 1)
         list.appendToTail(value: 2)
         XCTAssertEqual(list.popHead(), 1)
@@ -128,7 +128,7 @@ final class DoublyLinkedListTests: XCTestCase {
     }
 
     func testPopClearsListWhenLastNodeRemoved() {
-        let list = DoublyLinkedList<Int>()
+        let list = AWDoublyLinkedList<Int>()
         list.appendToTail(value: 99)
         list.popHead()
         XCTAssertNil(list.head)
@@ -137,7 +137,7 @@ final class DoublyLinkedListTests: XCTestCase {
     }
 
     func testPrevNextLinksAreCorrect() {
-        let list = DoublyLinkedList<Int>()
+        let list = AWDoublyLinkedList<Int>()
         list.appendToTail(value: 1)
         list.appendToTail(value: 2)
         list.appendToTail(value: 3)
@@ -148,45 +148,45 @@ final class DoublyLinkedListTests: XCTestCase {
     }
 
     func testSequenceIteration() {
-        let list = DoublyLinkedList<Int>()
+        let list = AWDoublyLinkedList<Int>()
         [10, 20, 30].forEach { list.appendToTail(value: $0) }
         XCTAssertEqual(Array(list), [10, 20, 30])
     }
 
     func testCustomStringConvertible() {
-        let list = DoublyLinkedList<Int>()
+        let list = AWDoublyLinkedList<Int>()
         [1, 2, 3].forEach { list.appendToTail(value: $0) }
         XCTAssertEqual(list.description, "1 <-> 2 <-> 3")
     }
 
     func testNoRetainCycleOnDealloc() {
-        // Each DLLNode.prev must be weak; otherwise the bidirectional links form
+        // Each AWDLLNode.prev must be weak; otherwise the bidirectional links form
         // ARC retain cycles and the entire node chain leaks when the list is released.
-        weak var midNodeRef: DLLNode<Int>?
+        weak var midNodeRef: AWDLLNode<Int>?
         do {
-            let list = DoublyLinkedList<Int>()
+            let list = AWDoublyLinkedList<Int>()
             list.appendToTail(value: 1)
             list.appendToTail(value: 2)
             list.appendToTail(value: 3)
             midNodeRef = list.head?.next  // capture a weak ref to the middle node
         }
-        XCTAssertNil(midNodeRef, "DLLNode should be deallocated when the list is released — prev must be weak")
+        XCTAssertNil(midNodeRef, "AWDLLNode should be deallocated when the list is released — prev must be weak")
     }
 }
 
-// MARK: - Queue Tests
+// MARK: - AWQueue Tests
 
 final class QueueTests: XCTestCase {
 
     func testEmptyQueueProperties() {
-        let q = Queue<String>()
+        let q = AWQueue<String>()
         XCTAssertTrue(q.isEmpty)
         XCTAssertEqual(q.count, 0)
         XCTAssertNil(q.peek())
     }
 
     func testFIFOOrdering() {
-        var q = Queue<Int>()
+        var q = AWQueue<Int>()
         [1, 2, 3].forEach { q.enqueue($0) }
         XCTAssertEqual(q.dequeue(), 1)
         XCTAssertEqual(q.dequeue(), 2)
@@ -195,14 +195,14 @@ final class QueueTests: XCTestCase {
     }
 
     func testPeekDoesNotRemove() {
-        var q = Queue<Int>()
+        var q = AWQueue<Int>()
         q.enqueue(42)
         XCTAssertEqual(q.peek(), 42)
         XCTAssertEqual(q.count, 1)
     }
 
     func testCopyHasIndependentStorage() {
-        var q1 = Queue<Int>()
+        var q1 = AWQueue<Int>()
         q1.enqueue(1)
         var q2 = q1           // copy
         q2.enqueue(2)         // must not affect q1
@@ -213,12 +213,12 @@ final class QueueTests: XCTestCase {
     }
 }
 
-// MARK: - Deque Tests
+// MARK: - AWDeque Tests
 
 final class DequeTests: XCTestCase {
 
     func testEmptyDequeProperties() {
-        let d = Deque<Int>()
+        let d = AWDeque<Int>()
         XCTAssertTrue(d.isEmpty)
         XCTAssertEqual(d.count, 0)
         XCTAssertNil(d.peekFirst())
@@ -226,7 +226,7 @@ final class DequeTests: XCTestCase {
     }
 
     func testPushAndPopBothEnds() {
-        var d = Deque<Int>()
+        var d = AWDeque<Int>()
         d.pushBack(1)
         d.pushBack(2)
         d.pushFront(0)
@@ -239,7 +239,7 @@ final class DequeTests: XCTestCase {
     }
 
     func testPopFrontOrder() {
-        var d = Deque<Int>()
+        var d = AWDeque<Int>()
         [1, 2, 3].forEach { d.pushBack($0) }
         XCTAssertEqual(d.popFront(), 1)
         XCTAssertEqual(d.popFront(), 2)
@@ -247,7 +247,7 @@ final class DequeTests: XCTestCase {
     }
 
     func testPopBackOrder() {
-        var d = Deque<Int>()
+        var d = AWDeque<Int>()
         [1, 2, 3].forEach { d.pushBack($0) }
         XCTAssertEqual(d.popBack(), 3)
         XCTAssertEqual(d.popBack(), 2)
@@ -255,7 +255,7 @@ final class DequeTests: XCTestCase {
     }
 
     func testCopyHasIndependentStorage() {
-        var d1 = Deque<Int>()
+        var d1 = AWDeque<Int>()
         d1.pushBack(1)
         var d2 = d1         // copy
         d2.pushBack(2)      // must not affect d1
@@ -264,19 +264,19 @@ final class DequeTests: XCTestCase {
     }
 }
 
-// MARK: - Stack Tests
+// MARK: - AWStack Tests
 
 final class StackTests: XCTestCase {
 
     func testEmptyStackProperties() {
-        let s = Stack<Int>()
+        let s = AWStack<Int>()
         XCTAssertTrue(s.isEmpty)
         XCTAssertEqual(s.count, 0)
         XCTAssertNil(s.peek())
     }
 
     func testLIFOOrdering() {
-        var s = Stack<Int>()
+        var s = AWStack<Int>()
         [1, 2, 3].forEach { s.push($0) }
         XCTAssertEqual(s.pop(), 3)
         XCTAssertEqual(s.pop(), 2)
@@ -285,14 +285,14 @@ final class StackTests: XCTestCase {
     }
 
     func testPeekDoesNotPop() {
-        var s = Stack<Int>()
+        var s = AWStack<Int>()
         s.push(7)
         XCTAssertEqual(s.peek(), 7)
         XCTAssertEqual(s.count, 1)
     }
 
     func testCopyHasIndependentStorage() {
-        var s1 = Stack<Int>()
+        var s1 = AWStack<Int>()
         s1.push(1)
         var s2 = s1         // copy
         s2.push(2)          // must not affect s1
@@ -303,66 +303,66 @@ final class StackTests: XCTestCase {
     }
 }
 
-// MARK: - Heap Tests
+// MARK: - AWHeap Tests
 
 final class HeapTests: XCTestCase {
 
-    private func assertMinHeapOrder(_ values: [Int], file: StaticString = #file, line: UInt = #line) {
-        var heap = Heap<Int>(order: .min)
+    private func assertMinAWHeapOrder(_ values: [Int], file: StaticString = #file, line: UInt = #line) {
+        var heap = AWHeap<Int>(order: .min)
         values.forEach { heap.insert($0) }
         var extracted: [Int] = []
         while let val = heap.extract() { extracted.append(val) }
         XCTAssertEqual(extracted, values.sorted(), "Min-heap should extract in ascending order", file: file, line: line)
     }
 
-    private func assertMaxHeapOrder(_ values: [Int], file: StaticString = #file, line: UInt = #line) {
-        var heap = Heap<Int>(order: .max)
+    private func assertMaxAWHeapOrder(_ values: [Int], file: StaticString = #file, line: UInt = #line) {
+        var heap = AWHeap<Int>(order: .max)
         values.forEach { heap.insert($0) }
         var extracted: [Int] = []
         while let val = heap.extract() { extracted.append(val) }
         XCTAssertEqual(extracted, values.sorted(by: >), "Max-heap should extract in descending order", file: file, line: line)
     }
 
-    func testMinHeapExtractionOrder() {
-        assertMinHeapOrder([5, 1, 3, 2, 4])
-        assertMinHeapOrder([10])
-        assertMinHeapOrder([3, 3, 1, 2])
+    func testAWMinHeapExtractionOrder() {
+        assertMinAWHeapOrder([5, 1, 3, 2, 4])
+        assertMinAWHeapOrder([10])
+        assertMinAWHeapOrder([3, 3, 1, 2])
     }
 
-    func testMaxHeapExtractionOrder() {
-        assertMaxHeapOrder([5, 1, 3, 2, 4])
-        assertMaxHeapOrder([10])
-        assertMaxHeapOrder([3, 3, 1, 2])
+    func testAWMaxHeapExtractionOrder() {
+        assertMaxAWHeapOrder([5, 1, 3, 2, 4])
+        assertMaxAWHeapOrder([10])
+        assertMaxAWHeapOrder([3, 3, 1, 2])
     }
 
-    func testMinHeapPeekReturnsMinWithoutRemoving() {
-        var heap = Heap<Int>(order: .min)
+    func testAWMinHeapPeekReturnsMinWithoutRemoving() {
+        var heap = AWHeap<Int>(order: .min)
         [4, 2, 7, 1].forEach { heap.insert($0) }
         XCTAssertEqual(heap.peek(), 1)
         XCTAssertEqual(heap.size, 4)
     }
 
-    func testMaxHeapPeekReturnsMaxWithoutRemoving() {
-        var heap = Heap<Int>(order: .max)
+    func testAWMaxHeapPeekReturnsMaxWithoutRemoving() {
+        var heap = AWHeap<Int>(order: .max)
         [4, 2, 7, 1].forEach { heap.insert($0) }
         XCTAssertEqual(heap.peek(), 7)
         XCTAssertEqual(heap.size, 4)
     }
 
     func testEmptyHeapProperties() {
-        let heap = Heap<Int>(order: .min)
+        let heap = AWHeap<Int>(order: .min)
         XCTAssertTrue(heap.isEmpty)
         XCTAssertEqual(heap.size, 0)
         XCTAssertNil(heap.peek())
     }
 
     func testExtractFromEmptyHeapReturnsNil() {
-        var heap = Heap<Int>(order: .min)
+        var heap = AWHeap<Int>(order: .min)
         XCTAssertNil(heap.extract())
     }
 
     func testCapacityPreventsOverInsertion() {
-        var heap = Heap<Int>(order: .min, capacity: 2)
+        var heap = AWHeap<Int>(order: .min, capacity: 2)
         XCTAssertTrue(heap.insert(1))
         XCTAssertTrue(heap.insert(2))
         XCTAssertFalse(heap.insert(3), "Insert beyond capacity should return false")
@@ -370,25 +370,25 @@ final class HeapTests: XCTestCase {
     }
 
     func testInsertAndExtractSingleElement() {
-        var heap = Heap<Int>(order: .min)
+        var heap = AWHeap<Int>(order: .min)
         heap.insert(42)
         XCTAssertEqual(heap.extract(), 42)
         XCTAssertTrue(heap.isEmpty)
     }
 
     func testDescriptionFormat() {
-        var heap = Heap<Int>(order: .min)
+        var heap = AWHeap<Int>(order: .min)
         heap.insert(3)
         heap.insert(1)
         heap.insert(2)
-        // description format is "MinHeap[<storage array>]" — root must be 1 (min)
-        XCTAssertTrue(heap.description.hasPrefix("MinHeap["), "MinHeap description should start with 'MinHeap['")
-        XCTAssertTrue(heap.description.contains("1"), "MinHeap description should include root element")
+        // description format is "AWMinHeap[<storage array>]" — root must be 1 (min)
+        XCTAssertTrue(heap.description.hasPrefix("AWMinHeap["), "AWMinHeap description should start with 'AWMinHeap['")
+        XCTAssertTrue(heap.description.contains("1"), "AWMinHeap description should include root element")
 
-        var maxHeap = Heap<Int>(order: .max)
+        var maxHeap = AWHeap<Int>(order: .max)
         maxHeap.insert(3)
         maxHeap.insert(1)
         maxHeap.insert(2)
-        XCTAssertTrue(maxHeap.description.hasPrefix("MaxHeap["), "MaxHeap description should start with 'MaxHeap['")
+        XCTAssertTrue(maxHeap.description.hasPrefix("AWMaxHeap["), "AWMaxHeap description should start with 'AWMaxHeap['")
     }
 }
