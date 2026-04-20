@@ -1,6 +1,6 @@
 # AWDataStructures
 
-A Swift package of classic CS data structures. Written in 2020 when Swift's standard library offered no linked lists, queues, stacks, or heaps. The package has been kept up-to-date and modernized, but **most of what it provides now has better-supported native or community alternatives** — see the relevance notes below.
+A Swift package of classic CS data structures. Written in 2020 when Swift's standard library had no linked lists, queues, or heaps (a `Stack` could be faked with `Array`, but no dedicated type existed). The package has been kept up-to-date and modernized, but **most of what it provides now has better-supported native or community alternatives** — see the relevance notes below.
 
 ---
 
@@ -15,7 +15,7 @@ A Swift package of classic CS data structures. Written in 2020 when Swift's stan
 | `Stack<T>` | LIFO stack backed by `SinglyLinkedList` | push/pop O(1) |
 | `Heap<T: Comparable>` | Binary heap, configurable as min-heap or max-heap | insert/extract O(log n) |
 
-All types conform to `Sequence` (linked lists) or `CustomStringConvertible`. `Heap` is a value type (`struct`). `MinHeap<T>` and `MaxHeap<T>` are typealiases for backward compatibility.
+`SinglyLinkedList` and `DoublyLinkedList` conform to `Sequence` and `CustomStringConvertible`. `Queue`, `Deque`, `Stack`, and `Heap` conform to `CustomStringConvertible` only. All four higher-level types are value types (`struct`). `MinHeap<T>` and `MaxHeap<T>` are typealiases for `Heap<T>`.
 
 ---
 
