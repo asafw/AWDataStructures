@@ -176,13 +176,15 @@ final class QueueTests: XCTestCase {
         XCTAssertEqual(q.count, 1)
     }
 
-    func testCountUpdatesCorrectly() {
-        var q = Queue<Int>()
-        q.enqueue(1)
-        q.enqueue(2)
-        XCTAssertEqual(q.count, 2)
-        q.dequeue()
-        XCTAssertEqual(q.count, 1)
+    func testCopyHasIndependentStorage() {
+        var q1 = Queue<Int>()
+        q1.enqueue(1)
+        var q2 = q1           // copy
+        q2.enqueue(2)         // must not affect q1
+        XCTAssertEqual(q1.count, 1, "Original queue should be unaffected by mutation of copy")
+        XCTAssertEqual(q2.count, 2)
+        XCTAssertEqual(q1.peek(), 1)
+        XCTAssertEqual(q2.peek(), 1)
     }
 }
 
@@ -226,6 +228,15 @@ final class DequeTests: XCTestCase {
         XCTAssertEqual(d.popBack(), 2)
         XCTAssertEqual(d.popBack(), 1)
     }
+
+    func testCopyHasIndependentStorage() {
+        var d1 = Deque<Int>()
+        d1.pushBack(1)
+        var d2 = d1         // copy
+        d2.pushBack(2)      // must not affect d1
+        XCTAssertEqual(d1.count, 1, "Original deque should be unaffected by mutation of copy")
+        XCTAssertEqual(d2.count, 2)
+    }
 }
 
 // MARK: - Stack Tests
@@ -253,6 +264,17 @@ final class StackTests: XCTestCase {
         s.push(7)
         XCTAssertEqual(s.peek(), 7)
         XCTAssertEqual(s.count, 1)
+    }
+
+    func testCopyHasIndependentStorage() {
+        var s1 = Stack<Int>()
+        s1.push(1)
+        var s2 = s1         // copy
+        s2.push(2)          // must not affect s1
+        XCTAssertEqual(s1.count, 1, "Original stack should be unaffected by mutation of copy")
+        XCTAssertEqual(s2.count, 2)
+        XCTAssertEqual(s1.peek(), 1)
+        XCTAssertEqual(s2.peek(), 2)
     }
 }
 

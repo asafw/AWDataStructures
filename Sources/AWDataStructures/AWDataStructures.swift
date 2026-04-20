@@ -73,6 +73,13 @@ public final class SinglyLinkedList<T> {
         count -= 1
         return headNode.value
     }
+
+    /// Returns a deep copy of this list in O(n).
+    func copy() -> SinglyLinkedList<T> {
+        let newList = SinglyLinkedList<T>()
+        for value in self { newList.appendToTail(value: value) }
+        return newList
+    }
 }
 
 extension SinglyLinkedList: Sequence {
@@ -154,6 +161,13 @@ public final class DoublyLinkedList<T> {
         count -= 1
         return headNode.value
     }
+
+    /// Returns a deep copy of this list in O(n).
+    func copy() -> DoublyLinkedList<T> {
+        let newList = DoublyLinkedList<T>()
+        for value in self { newList.appendToTail(value: value) }
+        return newList
+    }
 }
 
 extension DoublyLinkedList: Sequence {
@@ -174,11 +188,18 @@ extension DoublyLinkedList: CustomStringConvertible {
 
 // MARK: - Queue
 
-/// A FIFO queue backed by a singly-linked list, providing O(1) enqueue and dequeue.
+/// A FIFO queue backed by a singly-linked list, providing O(1) enqueue and O(1) dequeue.
 ///
 /// Swift's standard library has no built-in queue. Using an `Array` gives
-/// O(n) dequeue due to element shifting. This type provides true O(1) both-end
-/// access. If you already depend on `swift-collections`, prefer its `Deque<T>`.
+/// O(n) dequeue due to element shifting. This type provides true O(1)
+/// enqueue (at the tail) and O(1) dequeue (from the head).
+/// If you already depend on `swift-collections`, prefer its `Deque<T>`.
+///
+/// ### Complexity
+/// - `enqueue`: O(1)
+/// - `dequeue`: O(1)
+/// - `peek`: O(1)
+/// - Space: O(n)
 public struct Queue<T> {
     private var list = SinglyLinkedList<T>()
     public var count: Int { list.count }
@@ -186,15 +207,24 @@ public struct Queue<T> {
 
     public init() { }
 
+    // Ensures the backing storage is not shared before a mutation (copy-on-write).
+    private mutating func makeUnique() {
+        if !isKnownUniquelyReferenced(&list) {
+            list = list.copy()
+        }
+    }
+
     /// Adds `value` to the back of the queue in O(1).
     public mutating func enqueue(_ value: T) {
+        makeUnique()
         list.appendToTail(value: value)
     }
 
     /// Removes and returns the front element in O(1), or `nil` if empty.
     @discardableResult
     public mutating func dequeue() -> T? {
-        list.popHead()
+        makeUnique()
+        return list.popHead()
     }
 
     /// Returns the front element without removing it, or `nil` if empty.
@@ -209,11 +239,17 @@ extension Queue: CustomStringConvertible {
 
 // MARK: - Deque
 
-/// A double-ended queue (deque) backed by a doubly-linked list, providing O(1) access at both ends.
+/// A double-ended queue backed by a doubly-linked list with O(1) access at both ends.
 ///
-/// Note: Previously named `Dequeue` (a misspelling). The correct name for the
+/// Previously named `Dequeue` (a misspelling). The correct name for the
 /// data structure is `Deque`. If you already depend on `swift-collections`,
 /// prefer its `Deque<T>` which has better cache performance.
+///
+/// ### Complexity
+/// - `pushFront` / `pushBack`: O(1)
+/// - `popFront` / `popBack`: O(1)
+/// - `peekFirst` / `peekLast`: O(1)
+/// - Space: O(n)
 public struct Deque<T> {
     private var list = DoublyLinkedList<T>()
     public var count: Int { list.count }
@@ -221,26 +257,37 @@ public struct Deque<T> {
 
     public init() { }
 
+    // Ensures the backing storage is not shared before a mutation (copy-on-write).
+    private mutating func makeUnique() {
+        if !isKnownUniquelyReferenced(&list) {
+            list = list.copy()
+        }
+    }
+
     /// Adds `value` to the back in O(1).
     public mutating func pushBack(_ value: T) {
+        makeUnique()
         list.appendToTail(value: value)
     }
 
     /// Adds `value` to the front in O(1).
     public mutating func pushFront(_ value: T) {
+        makeUnique()
         list.pushHead(value: value)
     }
 
     /// Removes and returns the back element in O(1), or `nil` if empty.
     @discardableResult
     public mutating func popBack() -> T? {
-        list.popTail()
+        makeUnique()
+        return list.popTail()
     }
 
     /// Removes and returns the front element in O(1), or `nil` if empty.
     @discardableResult
     public mutating func popFront() -> T? {
-        list.popHead()
+        makeUnique()
+        return list.popHead()
     }
 
     /// Returns the front element without removing it, or `nil` if empty.
@@ -259,8 +306,12 @@ extension Deque: CustomStringConvertible {
 /// A LIFO stack backed by a singly-linked list.
 ///
 /// For most use cases, a plain `Array` with `append`/`popLast` is idiomatic
-/// Swift and equally efficient. This type is kept for historical completeness
-/// and as a teaching reference.
+/// Swift and has better cache performance. This type is kept for historical
+/// completeness and as a teaching reference.
+///
+/// ### Complexity
+/// - `push` / `pop` / `peek`: O(1)
+/// - Space: O(n)
 public struct Stack<T> {
     private var list = SinglyLinkedList<T>()
     public var count: Int { list.count }
@@ -268,15 +319,24 @@ public struct Stack<T> {
 
     public init() { }
 
+    // Ensures the backing storage is not shared before a mutation (copy-on-write).
+    private mutating func makeUnique() {
+        if !isKnownUniquelyReferenced(&list) {
+            list = list.copy()
+        }
+    }
+
     /// Pushes `value` onto the top in O(1).
     public mutating func push(_ value: T) {
+        makeUnique()
         list.pushHead(value: value)
     }
 
     /// Removes and returns the top element in O(1), or `nil` if empty.
     @discardableResult
     public mutating func pop() -> T? {
-        list.popHead()
+        makeUnique()
+        return list.popHead()
     }
 
     /// Returns the top element without removing it, or `nil` if empty.
@@ -308,8 +368,18 @@ public enum HeapOrder {
 /// sites continue to compile. Create them with `Heap(order: .min)` or
 /// `Heap(order: .max)`.
 ///
+/// - Important: `MinHeap<T>` and `MaxHeap<T>` are typealiases for `Heap<T>`
+///   and do not enforce the order at the type level. Always pass the
+///   correct `HeapOrder` at construction time.
+///
 /// If you already depend on `swift-collections`, prefer its `Heap<T>`.
 /// This type is kept as a dependency-free alternative.
+///
+/// ### Complexity
+/// - `peek`: O(1)
+/// - `insert`: O(log n)
+/// - `extract`: O(log n)
+/// - Space: O(n)
 ///
 /// - Note: Insertion beyond `capacity` returns `false` rather than silently
 ///   dropping values.
@@ -389,7 +459,13 @@ extension Heap: CustomStringConvertible {
 }
 
 /// A min-heap: root is always the smallest element.
+/// - Note: This is a typealias for `Heap<T>`. The order is not enforced by
+///   the type system; you must pass `HeapOrder.min` at construction:
+///   `var h: MinHeap<Int> = Heap(order: .min)`
 public typealias MinHeap<T: Comparable> = Heap<T>
 
 /// A max-heap: root is always the largest element.
+/// - Note: This is a typealias for `Heap<T>`. The order is not enforced by
+///   the type system; you must pass `HeapOrder.max` at construction:
+///   `var h: MaxHeap<Int> = Heap(order: .max)`
 public typealias MaxHeap<T: Comparable> = Heap<T>
