@@ -8,14 +8,14 @@ A Swift package of classic CS data structures. Written in 2020 when Swift's stan
 
 | Type | Description | Complexity |
 |---|---|---|
-| `SinglyLinkedList<T>` | Linked list with O(1) head push/pop and O(1) tail append | push/pop O(1) |
-| `DoublyLinkedList<T>` | Linked list with O(1) access at both ends | push/pop O(1) |
-| `Queue<T>` | FIFO queue backed by `AWSinglyLinkedList` | enqueue/dequeue O(1) |
-| `Deque<T>` | Double-ended queue backed by `AWDoublyLinkedList` | all ops O(1) |
-| `Stack<T>` | LIFO stack backed by `AWSinglyLinkedList` | push/pop O(1) |
-| `Heap<T: Comparable>` | Binary heap, configurable as min-heap or max-heap | insert/extract O(log n) |
+| `AWSinglyLinkedList<T>` | Linked list with O(1) head push/pop and O(1) tail append | push/pop O(1) |
+| `AWDoublyLinkedList<T>` | Linked list with O(1) access at both ends | push/pop O(1) |
+| `AWQueue<T>` | FIFO queue backed by `AWSinglyLinkedList` | enqueue/dequeue O(1) |
+| `AWDeque<T>` | Double-ended queue backed by `AWDoublyLinkedList` | all ops O(1) |
+| `AWStack<T>` | LIFO stack backed by `AWSinglyLinkedList` | push/pop O(1) |
+| `AWHeap<T: Comparable>` | Binary heap, configurable as min-heap or max-heap | insert/extract O(log n) |
 
-`AWSinglyLinkedList` and `AWDoublyLinkedList` conform to `Sequence` and `CustomStringConvertible`. `AWQueue`, `AWDeque`, `AWStack`, and `AWHeap` conform to `CustomStringConvertible` only. All four higher-level types are value types (`struct`). `MinHeap<T>` and `MaxHeap<T>` are typealiases for `Heap<T>`.
+`AWSinglyLinkedList` and `AWDoublyLinkedList` conform to `Sequence` and `CustomStringConvertible`. `AWQueue`, `AWDeque`, `AWStack`, and `AWHeap` conform to `CustomStringConvertible` only. All four higher-level types are value types (`struct`). `AWMinHeap<T>` and `AWMaxHeap<T>` are typealiases for `AWHeap<T>`.
 
 ---
 
@@ -32,7 +32,7 @@ A Swift package of classic CS data structures. Written in 2020 when Swift's stan
 
 ### Still has no direct stdlib equivalent
 
-- **`SinglyLinkedList<T>` / `DoublyLinkedList<T>`** — Swift's stdlib has never shipped a linked list. `Array` or `swift-collections`' `AWDeque` will outperform pointer-chased nodes in almost every real use case due to cache locality. These types are kept as teaching references — classic CS implementations with no practical production advantage over the alternatives above.
+- **`AWSinglyLinkedList<T>` / `AWDoublyLinkedList<T>`** — Swift's stdlib has never shipped a linked list. `Array` or `swift-collections`' `AWDeque` will outperform pointer-chased nodes in almost every real use case due to cache locality. These types are kept as teaching references — classic CS implementations with no practical production advantage over the alternatives above.
 
 ---
 
@@ -105,6 +105,20 @@ list.appendToTail(value: 2)
 list.pushHead(value: 0)
 Array(list)  // → [0, 1, 2]
 print(list)  // → "0 -> 1 -> 2"
+```
+
+### DoublyLinkedList
+
+```swift
+let list = AWDoublyLinkedList<Int>()
+list.appendToTail(value: 1)
+list.appendToTail(value: 2)
+list.appendToTail(value: 3)
+list.pushHead(value: 0)
+list.popHead()  // → 0
+list.popTail()  // → 3
+Array(list)     // → [1, 2]
+print(list)     // → "1 <-> 2"
 ```
 
 ---
