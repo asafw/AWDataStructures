@@ -50,6 +50,10 @@ AWDataStructures/
 Both conform to `Sequence` and `CustomStringConvertible`. Both expose a
 package-internal `copy() -> Self` method used for copy-on-write by higher-level types.
 
+> **ARC safety:** `DLLNode.prev` is `weak var`. This is mandatory — strong
+> bidirectional node links create ARC retain cycles that leak the entire node
+> chain when the list is released. Never change `prev` back to a strong reference.
+
 > **Breaking change (v2.0):** The old `Dequeue<T>` type was renamed to `Deque<T>`
 > (correct spelling). No backward-compat alias exists.
 

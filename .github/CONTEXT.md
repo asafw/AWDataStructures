@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `d64723f` — docs: drop misleading 'stable node identity' claim for linked lists
+- Latest commit: `<next>` — fix: memory leak in DoublyLinkedList — DLLNode.prev must be weak
 - Branch: `master`
 
 ## Build Commands
@@ -56,12 +56,13 @@ All four higher-level types are superseded by better alternatives:
 - All `pop` / `extract` methods are marked `@discardableResult` — callers can ignore the return value without a compiler warning.
 - `SinglyLinkedList.pushHead` correctly sets `tail` when inserting into an empty list (bug fixed in v2.0).
 - `Dequeue` was renamed to `Deque` in v2.0 — this is a **breaking API change**. No backward-compat alias exists for the old name.
+- **`DLLNode.prev` is `weak var`** — breaks ARC retain cycles between adjacent nodes. Without this, releasing a `DoublyLinkedList` (or `Deque`) with ≥ 2 nodes would leak the entire node chain because the bidirectional strong references prevent any node's reference count from reaching zero.
 
-## Tests — 37 total, all passing
+## Tests — 38 total, all passing
 | Suite | Count |
 |---|---|
 | `SinglyLinkedListTests` | 8 |
-| `DoublyLinkedListTests` | 8 |
+| `DoublyLinkedListTests` | 9 (includes ARC leak regression test) |
 | `QueueTests` | 4 (includes CoW test) |
 | `DequeTests` | 5 (includes CoW test) |
 | `StackTests` | 4 (includes CoW test) |
@@ -69,6 +70,7 @@ All four higher-level types are superseded by better alternatives:
 
 ## Commit history
 ```
+<next>   fix: memory leak in DoublyLinkedList — DLLNode.prev must be weak
 d64723f docs: drop misleading 'stable node identity' claim for linked lists
 a846af4 docs: move Queue into superseded table, drop verbose justification
 c3c7284 docs: clarify Queue is a zero-dependency fallback, swift-collections Deque is preferred
@@ -84,3 +86,4 @@ cdd1932 docs(context): fix stale commit, wrong QueueTests count, add missing ses
 ## Pending / known limitations
 - `MinHeap<T>` / `MaxHeap<T>` typealiases do not prevent constructing a `MinHeap` with `order: .max`. A future improvement could be separate concrete types or a phantom-type approach.
 - No `buildHeap` init (heapify in O(n)) — all insertions are O(log n) individually.
+- `Heap` exposes `size` while all other types (`Queue`, `Deque`, `Stack`) expose `count` — minor API inconsistency. Changing it is a breaking API change, so deferred.

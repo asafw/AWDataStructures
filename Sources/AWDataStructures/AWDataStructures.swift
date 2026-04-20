@@ -20,7 +20,8 @@ public final class Node<T> {
 /// A node in a doubly-linked list.
 public final class DLLNode<T> {
     public var value: T
-    public var prev: DLLNode?
+    /// Weak to break the ARC retain cycle inherent in bidirectional node links.
+    public weak var prev: DLLNode?
     public var next: DLLNode?
 
     public init(value: T) { self.value = value }

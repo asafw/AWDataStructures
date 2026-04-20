@@ -147,6 +147,20 @@ final class DoublyLinkedListTests: XCTestCase {
         [10, 20, 30].forEach { list.appendToTail(value: $0) }
         XCTAssertEqual(Array(list), [10, 20, 30])
     }
+
+    func testNoRetainCycleOnDealloc() {
+        // Each DLLNode.prev must be weak; otherwise the bidirectional links form
+        // ARC retain cycles and the entire node chain leaks when the list is released.
+        weak var midNodeRef: DLLNode<Int>?
+        do {
+            let list = DoublyLinkedList<Int>()
+            list.appendToTail(value: 1)
+            list.appendToTail(value: 2)
+            list.appendToTail(value: 3)
+            midNodeRef = list.head?.next  // capture a weak ref to the middle node
+        }
+        XCTAssertNil(midNodeRef, "DLLNode should be deallocated when the list is released — prev must be weak")
+    }
 }
 
 // MARK: - Queue Tests
