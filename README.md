@@ -27,12 +27,12 @@ All types conform to `Sequence` (linked lists) or `CustomStringConvertible`. `He
 |---|---|
 | `Stack<T>` | `Array` + `.append()` / `.popLast()` — idiomatic Swift, same O(1) complexity |
 | `Deque<T>` | [`swift-collections` `Deque<T>`](https://github.com/apple/swift-collections) — better cache locality |
+| `Queue<T>` | [`swift-collections` `Deque<T>`](https://github.com/apple/swift-collections) — superset of Queue functionality, better cache performance |
 | `Heap<T>` | [`swift-collections` `Heap<T>`](https://github.com/apple/swift-collections) — richer API, available since 2023 |
 
 ### Still has no direct stdlib equivalent
 
 - **`SinglyLinkedList<T>` / `DoublyLinkedList<T>`** — Swift's stdlib has never shipped a linked list. For most sequential storage `Array` or `swift-collections`' `Deque` will perform better due to cache locality, but pointer-chased lists remain useful as teaching references or when you need stable node identity.
-- **`Queue<T>`** — If you can take a dependency, use `swift-collections`'s `Deque<T>` — it covers everything this type does, with better cache performance. This `Queue` exists for environments where zero external dependencies is a hard requirement. It delivers O(1) enqueue and dequeue; `Array.removeFirst()` is O(n) and is not a viable alternative.
 
 ---
 
