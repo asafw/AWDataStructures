@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `bd0227c` — docs(context): fix commit hash after test file split
+- Latest commit: `f94ccc2` — ci: add GitHub Actions workflow (macOS + Ubuntu)
 - Branch: `master`
 
 ## Build Commands
@@ -79,6 +79,8 @@ All four higher-level types are superseded by better alternatives:
 
 ## Commit history
 ```
+f94ccc2 ci: add GitHub Actions workflow (macOS + Ubuntu)
+a28ecdd docs(context): fix stale type names and missing commits in context
 bd0227c docs(context): fix commit hash after test file split
 3da10ba refactor: split tests into per-type files
 976fa05 docs(context): fix commit hash after file split
