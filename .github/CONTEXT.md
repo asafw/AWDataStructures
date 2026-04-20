@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `17f5cc1` — refactor: add AW prefix to all public types (breaking change)
+- Latest commit: `PENDING` — refactor: split source into per-type files
 - Branch: `master`
 
 ## Build Commands
@@ -35,17 +35,19 @@ All four higher-level types are superseded by better alternatives:
 
 ## Types
 
-| Type | Kind | Backing store | Value semantics |
-|---|---|---|---|
-| `SinglyLinkedList<T>` | `final class` | Pointer-chased nodes | Reference (class) |
-| `DoublyLinkedList<T>` | `final class` | Pointer-chased nodes | Reference (class) |
-| `Queue<T>` | `struct` | `AWSinglyLinkedList` (CoW) | Value ✓ |
-| `Deque<T>` | `struct` | `AWDoublyLinkedList` (CoW) | Value ✓ |
-| `Stack<T>` | `struct` | `AWSinglyLinkedList` (CoW) | Value ✓ |
-| `Heap<T: Comparable>` | `struct` | `[T]` array | Value ✓ |
-| `AWHeapOrder` | `enum` | — | Value ✓ |
-| `MinHeap<T>` | typealias for `Heap<T>` | — | does not enforce order |
-| `MaxHeap<T>` | typealias for `Heap<T>` | — | does not enforce order |
+| Type | File | Kind | Backing store | Value semantics |
+|---|---|---|---|---|
+| `AWNode<T>` | `AWSinglyLinkedList.swift` | `final class` | — | Reference (class) |
+| `AWDLLNode<T>` | `AWDoublyLinkedList.swift` | `final class` | — | Reference (class) |
+| `AWSinglyLinkedList<T>` | `AWSinglyLinkedList.swift` | `final class` | Pointer-chased nodes | Reference (class) |
+| `AWDoublyLinkedList<T>` | `AWDoublyLinkedList.swift` | `final class` | Pointer-chased nodes | Reference (class) |
+| `AWQueue<T>` | `AWQueue.swift` | `struct` | `AWSinglyLinkedList` (CoW) | Value ✓ |
+| `AWDeque<T>` | `AWDeque.swift` | `struct` | `AWDoublyLinkedList` (CoW) | Value ✓ |
+| `AWStack<T>` | `AWStack.swift` | `struct` | `AWSinglyLinkedList` (CoW) | Value ✓ |
+| `AWHeapOrder` | `AWHeap.swift` | `enum` | — | Value ✓ |
+| `AWHeap<T: Comparable>` | `AWHeap.swift` | `struct` | `[T]` array | Value ✓ |
+| `AWMinHeap<T>` | `AWHeap.swift` | typealias for `AWHeap<T>` | — | does not enforce order |
+| `AWMaxHeap<T>` | `AWHeap.swift` | typealias for `AWHeap<T>` | — | does not enforce order |
 
 ## Key invariants
 - `AWQueue`, `AWDeque`, `AWStack` use copy-on-write: `makeUnique()` calls `list.copy()` (O(n) deep copy) before any mutation when reference count > 1.
@@ -71,6 +73,7 @@ All four higher-level types are superseded by better alternatives:
 
 ## Commit history
 ```
+PENDING  refactor: split source into per-type files
 17f5cc1 refactor: add AW prefix to all public types (breaking change)
 dd4b8cc docs(context): sync session state — correct latest commit, full history, test count, project overview
 125785b docs(context): fix commit hash in CONTEXT.md

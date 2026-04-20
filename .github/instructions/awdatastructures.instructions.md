@@ -25,7 +25,12 @@ merged Heap type, real tests.
 ```
 AWDataStructures/
 ├── Sources/AWDataStructures/
-│   └── AWDataStructures.swift   ← All types in one file
+│   ├── AWSinglyLinkedList.swift  ← AWNode, AWSinglyLinkedList
+│   ├── AWDoublyLinkedList.swift  ← AWDLLNode, AWDoublyLinkedList
+│   ├── AWQueue.swift
+│   ├── AWDeque.swift
+│   ├── AWStack.swift
+│   └── AWHeap.swift              ← AWHeapOrder, AWHeap, AWMinHeap, AWMaxHeap
 ├── Tests/AWDataStructuresTests/
 │   └── AWDataStructuresTests.swift
 ├── Package.swift                ← swift-tools-version:5.9, no platform restriction
@@ -45,32 +50,32 @@ AWDataStructures/
 
 | Type | Key methods | Complexity |
 |---|---|---|
-| `SinglyLinkedList<T>` | `appendToTail`, `pushHead`, `popHead` | O(1) all |
-| `DoublyLinkedList<T>` | `appendToTail`, `pushHead`, `popHead`, `popTail` | O(1) all |
+| `AWSinglyLinkedList<T>` | `appendToTail`, `pushHead`, `popHead` | O(1) all |
+| `AWDoublyLinkedList<T>` | `appendToTail`, `pushHead`, `popHead`, `popTail` | O(1) all |
 
 Both conform to `Sequence` and `CustomStringConvertible`. Both expose a
 package-internal `copy() -> Self` method used for copy-on-write by higher-level types.
 
-> **ARC safety:** `DLLNode.prev` is `weak var`. This is mandatory — strong
+> **ARC safety:** `AWDLLNode.prev` is `weak var`. This is mandatory — strong
 > bidirectional node links create ARC retain cycles that leak the entire node
 > chain when the list is released. Never change `prev` back to a strong reference.
 
-> **Node link mutability:** `Node.next` and `DLLNode.next`/`DLLNode.prev` are
+> **Node link mutability:** `AWNode.next` and `AWDLLNode.next`/`AWDLLNode.prev` are
 > `public internal(set)`. External consumers can read (traverse) but cannot write
 > to node links. Writing from outside the module would silently corrupt `count`,
 > `head`, and `tail` invariants.
 
-> **Breaking change (v2.0):** The old `Dequeue<T>` type was renamed to `Deque<T>`
+> **Breaking change (v2.0):** The old `Dequeue<T>` type was renamed to `AWDeque<T>`
 > (correct spelling). No backward-compat alias exists.
 
 ### Value types (`struct`)
 
 | Type | Semantics | Key methods | Complexity | Status |
 |---|---|---|---|---|
-| `Queue<T>` | FIFO | `enqueue(_:)`, `dequeue()`, `peek()` | O(1) all | Superseded by `swift-collections` `Deque<T>` |
-| `Deque<T>` | Double-ended | `pushFront/Back`, `popFront/Back`, `peekFirst/Last` | O(1) all | Superseded by `swift-collections` `Deque<T>` |
-| `Stack<T>` | LIFO | `push(_:)`, `pop()`, `peek()` | O(1) all | Superseded by `Array` |
-| `Heap<T: Comparable>` | Min or max binary heap | `insert(_:) -> Bool`, `extract() -> T?`, `peek()` | O(log n) insert/extract, O(1) peek | Superseded by `swift-collections` `Heap<T>` |
+| `AWQueue<T>` | FIFO | `enqueue(_:)`, `dequeue()`, `peek()` | O(1) all | Superseded by `swift-collections` `Deque<T>` |
+| `AWDeque<T>` | Double-ended | `pushFront/Back`, `popFront/Back`, `peekFirst/Last` | O(1) all | Superseded by `swift-collections` `Deque<T>` |
+| `AWStack<T>` | LIFO | `push(_:)`, `pop()`, `peek()` | O(1) all | Superseded by `Array` |
+| `AWHeap<T: Comparable>` | Min or max binary heap | `insert(_:) -> Bool`, `extract() -> T?`, `peek()` | O(log n) insert/extract, O(1) peek | Superseded by `swift-collections` `Heap<T>` |
 
 `AWQueue`, `AWDeque`, `AWStack` use **copy-on-write**: each mutating method calls
 `makeUnique()`, which deep-copies the backing linked list when the reference
@@ -78,16 +83,17 @@ count is > 1.
 
 `AWHeap` is backed by a plain `[T]` array — no CoW wrapper needed.
 
-`MinHeap<T>` and `MaxHeap<T>` are typealiases for `Heap<T>`. They do **not**
-enforce order at compile time. Always pass `HeapOrder.min` or `HeapOrder.max`
+`AWMinHeap<T>` and `AWMaxHeap<T>` are typealiases for `AWHeap<T>`. They do **not**
+enforce order at compile time. Always pass `AWHeapOrder.min` or `AWHeapOrder.max`
 at construction.
 
 ---
 
 ## Coding conventions
 
-- **One file** — all types live in `AWDataStructures.swift`. Do not split into
-  multiple files unless the file becomes unmanageable (>~600 lines).
+- **One file per type** — each public type has its own file named after it
+  (`AWSinglyLinkedList.swift`, `AWDoublyLinkedList.swift`, `AWQueue.swift`,
+  `AWDeque.swift`, `AWStack.swift`, `AWHeap.swift`).
 - **No imports** — the source file must remain import-free. Every API used must
   come from the Swift stdlib.
 - **Doc comments** — every `public` type and method must have a `///` doc comment.
