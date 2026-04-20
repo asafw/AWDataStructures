@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `<next>` — fix: memory leak in DoublyLinkedList — DLLNode.prev must be weak
+- Latest commit: `a2dde0b` — fix: memory leak in DoublyLinkedList — DLLNode.prev must be weak
 - Branch: `master`
 
 ## Build Commands
@@ -70,7 +70,7 @@ All four higher-level types are superseded by better alternatives:
 
 ## Commit history
 ```
-<next>   fix: memory leak in DoublyLinkedList — DLLNode.prev must be weak
+a2dde0b fix: memory leak in DoublyLinkedList — DLLNode.prev must be weak
 d64723f docs: drop misleading 'stable node identity' claim for linked lists
 a846af4 docs: move Queue into superseded table, drop verbose justification
 c3c7284 docs: clarify Queue is a zero-dependency fallback, swift-collections Deque is preferred
