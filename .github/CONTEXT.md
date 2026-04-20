@@ -15,6 +15,12 @@ swift build
 swift test
 ```
 
+## CI
+- Workflow: `.github/workflows/ci.yml`
+- Triggers: push and pull_request on `master`
+- Matrix: `macos-latest`, `ubuntu-latest`
+- Steps: `swift build` → `swift test`
+
 ## Package
 - `swift-tools-version`: 5.9
 - No external dependencies

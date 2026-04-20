@@ -1,5 +1,7 @@
 # AWDataStructures
 
+![CI](https://github.com/asafw/AWDataStructures/actions/workflows/ci.yml/badge.svg)
+
 A Swift package of classic CS data structures. Written in 2020 when Swift's standard library had no linked lists, queues, or heaps (a `AWStack` could be faked with `Array`, but no dedicated type existed). The package has been kept up-to-date and modernized, but **most of what it provides now has better-supported native or community alternatives** — see the relevance notes below.
 
 ---
