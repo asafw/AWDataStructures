@@ -54,6 +54,11 @@ package-internal `copy() -> Self` method used for copy-on-write by higher-level 
 > bidirectional node links create ARC retain cycles that leak the entire node
 > chain when the list is released. Never change `prev` back to a strong reference.
 
+> **Node link mutability:** `Node.next` and `DLLNode.next`/`DLLNode.prev` are
+> `public internal(set)`. External consumers can read (traverse) but cannot write
+> to node links. Writing from outside the module would silently corrupt `count`,
+> `head`, and `tail` invariants.
+
 > **Breaking change (v2.0):** The old `Dequeue<T>` type was renamed to `Deque<T>`
 > (correct spelling). No backward-compat alias exists.
 

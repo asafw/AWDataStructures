@@ -73,6 +73,11 @@ final class SinglyLinkedListTests: XCTestCase {
         [1, 2, 3].forEach { list.appendToTail(value: $0) }
         XCTAssertEqual(list.description, "1 -> 2 -> 3")
     }
+
+    func testDescriptionEmptyList() {
+        let list = SinglyLinkedList<Int>()
+        XCTAssertEqual(list.description, "")
+    }
 }
 
 // MARK: - DoublyLinkedList Tests
@@ -146,6 +151,12 @@ final class DoublyLinkedListTests: XCTestCase {
         let list = DoublyLinkedList<Int>()
         [10, 20, 30].forEach { list.appendToTail(value: $0) }
         XCTAssertEqual(Array(list), [10, 20, 30])
+    }
+
+    func testCustomStringConvertible() {
+        let list = DoublyLinkedList<Int>()
+        [1, 2, 3].forEach { list.appendToTail(value: $0) }
+        XCTAssertEqual(list.description, "1 <-> 2 <-> 3")
     }
 
     func testNoRetainCycleOnDealloc() {
@@ -363,5 +374,21 @@ final class HeapTests: XCTestCase {
         heap.insert(42)
         XCTAssertEqual(heap.extract(), 42)
         XCTAssertTrue(heap.isEmpty)
+    }
+
+    func testDescriptionFormat() {
+        var heap = Heap<Int>(order: .min)
+        heap.insert(3)
+        heap.insert(1)
+        heap.insert(2)
+        // description format is "MinHeap[<storage array>]" — root must be 1 (min)
+        XCTAssertTrue(heap.description.hasPrefix("MinHeap["), "MinHeap description should start with 'MinHeap['")
+        XCTAssertTrue(heap.description.contains("1"), "MinHeap description should include root element")
+
+        var maxHeap = Heap<Int>(order: .max)
+        maxHeap.insert(3)
+        maxHeap.insert(1)
+        maxHeap.insert(2)
+        XCTAssertTrue(maxHeap.description.hasPrefix("MaxHeap["), "MaxHeap description should start with 'MaxHeap['")
     }
 }

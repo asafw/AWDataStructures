@@ -10,7 +10,9 @@
 /// A node in a singly-linked list.
 public final class Node<T> {
     public var value: T
-    public var next: Node?
+    /// The next node. Readable publicly; writable only within the module to
+    /// prevent external callers from corrupting list invariants (count, tail).
+    public internal(set) var next: Node?
 
     public init(value: T) { self.value = value }
 }
@@ -21,8 +23,11 @@ public final class Node<T> {
 public final class DLLNode<T> {
     public var value: T
     /// Weak to break the ARC retain cycle inherent in bidirectional node links.
-    public weak var prev: DLLNode?
-    public var next: DLLNode?
+    /// Readable publicly; writable only within the module.
+    public internal(set) weak var prev: DLLNode?
+    /// Readable publicly; writable only within the module to prevent external
+    /// callers from corrupting list invariants (count, head, tail).
+    public internal(set) var next: DLLNode?
 
     public init(value: T) { self.value = value }
 }

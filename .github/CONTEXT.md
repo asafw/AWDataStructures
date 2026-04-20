@@ -57,19 +57,21 @@ All four higher-level types are superseded by better alternatives:
 - `SinglyLinkedList.pushHead` correctly sets `tail` when inserting into an empty list (bug fixed in v2.0).
 - `Dequeue` was renamed to `Deque` in v2.0 — this is a **breaking API change**. No backward-compat alias exists for the old name.
 - **`DLLNode.prev` is `weak var`** — breaks ARC retain cycles between adjacent nodes. Without this, releasing a `DoublyLinkedList` (or `Deque`) with ≥ 2 nodes would leak the entire node chain because the bidirectional strong references prevent any node's reference count from reaching zero.
+- **`Node.next` and `DLLNode.next`/`DLLNode.prev` are `public internal(set)`** — external consumers can traverse nodes by reading these properties, but cannot write to them. Writing from outside the module would silently corrupt `count`, `head`, and `tail` invariants.
 
-## Tests — 38 total, all passing
+## Tests — 41 total, all passing
 | Suite | Count |
 |---|---|
-| `SinglyLinkedListTests` | 8 |
-| `DoublyLinkedListTests` | 9 (includes ARC leak regression test) |
+| `SinglyLinkedListTests` | 9 (added empty description test) |
+| `DoublyLinkedListTests` | 10 (added description + ARC leak regression) |
 | `QueueTests` | 4 (includes CoW test) |
 | `DequeTests` | 5 (includes CoW test) |
 | `StackTests` | 4 (includes CoW test) |
-| `HeapTests` | 8 |
+| `HeapTests` | 9 (added description format test) |
 
 ## Commit history
 ```
+<next>   fix: restrict Node link setters to internal; add missing description tests
 a2dde0b fix: memory leak in DoublyLinkedList — DLLNode.prev must be weak
 d64723f docs: drop misleading 'stable node identity' claim for linked lists
 a846af4 docs: move Queue into superseded table, drop verbose justification
