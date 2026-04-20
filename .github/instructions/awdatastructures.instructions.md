@@ -98,9 +98,10 @@ at construction.
   come from the Swift stdlib.
 - **Doc comments** — every `public` type and method must have a `///` doc comment.
   Include a `### Complexity` block for container types.
-- **Tests** — every new type or method must have corresponding tests in
-  `AWDataStructuresTests.swift`. Use a private helper when testing multiple
-  inputs with the same logic (see `assertMinHeapOrder` / `assertMaxHeapOrder`).
+- **Tests** — every new type or method must have corresponding tests in its
+  matching test file (e.g. `AWQueueTests.swift` for `AWQueue`). Use a private
+  helper when testing multiple inputs with the same logic (see `assertMinHeapOrder`
+  / `assertMaxHeapOrder` in `AWHeapTests.swift`).
 - **Value semantics for structs** — any `struct` that wraps a `class` backing
   store must implement CoW via `makeUnique()`. Test it with a copy-and-mutate test.
 - **`@discardableResult`** — all `pop` / `extract` / `dequeue` methods must be

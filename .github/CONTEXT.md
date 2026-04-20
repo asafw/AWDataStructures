@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `1fc4285` — refactor: split source into per-type files
+- Latest commit: `PENDING` — refactor: split tests into per-type files
 - Branch: `master`
 
 ## Build Commands
@@ -62,17 +62,18 @@ All four higher-level types are superseded by better alternatives:
 - **`Node.next` and `DLLNode.next`/`DLLNode.prev` are `public internal(set)`** — external consumers can traverse nodes by reading these properties, but cannot write to them. Writing from outside the module would silently corrupt `count`, `head`, and `tail` invariants.
 
 ## Tests — 41 total, all passing
-| Suite | Count |
-|---|---|
-| `SinglyLinkedListTests` | 9 (added empty description test) |
-| `DoublyLinkedListTests` | 10 (added description + ARC leak regression) |
-| `QueueTests` | 4 (includes CoW test) |
-| `DequeTests` | 5 (includes CoW test) |
-| `StackTests` | 4 (includes CoW test) |
-| `HeapTests` | 9 (added description format test) |
+| Suite | File | Count |
+|---|---|---|
+| `AWSinglyLinkedListTests` | `AWSinglyLinkedListTests.swift` | 9 (includes empty description test) |
+| `AWDoublyLinkedListTests` | `AWDoublyLinkedListTests.swift` | 10 (includes description + ARC leak regression) |
+| `AWQueueTests` | `AWQueueTests.swift` | 4 (includes CoW test) |
+| `AWDequeTests` | `AWDequeTests.swift` | 5 (includes CoW test) |
+| `AWStackTests` | `AWStackTests.swift` | 4 (includes CoW test) |
+| `AWHeapTests` | `AWHeapTests.swift` | 9 (includes description format test) |
 
 ## Commit history
 ```
+PENDING  refactor: split tests into per-type files
 1fc4285 refactor: split source into per-type files
 17f5cc1 refactor: add AW prefix to all public types (breaking change)
 dd4b8cc docs(context): sync session state — correct latest commit, full history, test count, project overview
