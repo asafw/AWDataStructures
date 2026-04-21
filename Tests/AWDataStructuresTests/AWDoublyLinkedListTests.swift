@@ -78,6 +78,20 @@ final class AWDoublyLinkedListTests: XCTestCase {
         XCTAssertEqual(list.description, "1 <-> 2 <-> 3")
     }
 
+    func testDescriptionEmptyList() {
+        let list = AWDoublyLinkedList<Int>()
+        XCTAssertEqual(list.description, "")
+    }
+
+    func testPopTailClearsHeadAndTailWhenLastNodeRemoved() {
+        let list = AWDoublyLinkedList<Int>()
+        list.appendToTail(value: 99)
+        list.popTail()
+        XCTAssertNil(list.head, "head must be nil after popping last element via popTail")
+        XCTAssertNil(list.tail, "tail must be nil after popping last element via popTail")
+        XCTAssertTrue(list.isEmpty)
+    }
+
     func testNoRetainCycleOnDealloc() {
         // Each AWDLLNode.prev must be weak; otherwise the bidirectional links form
         // ARC retain cycles and the entire node chain leaks when the list is released.

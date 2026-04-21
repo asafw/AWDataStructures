@@ -55,6 +55,16 @@ final class AWDequeTests: XCTestCase {
         XCTAssertEqual(d.description, "1 <-> 2 <-> 3")
     }
 
+    func testPopFrontReturnsNilOnEmpty() {
+        var d = AWDeque<Int>()
+        XCTAssertNil(d.popFront(), "popFront on empty deque must return nil")
+    }
+
+    func testPopBackReturnsNilOnEmpty() {
+        var d = AWDeque<Int>()
+        XCTAssertNil(d.popBack(), "popBack on empty deque must return nil")
+    }
+
     func testEqualityAndInequality() {
         var d1 = AWDeque<Int>()
         var d2 = AWDeque<Int>()
