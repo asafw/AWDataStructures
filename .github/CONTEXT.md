@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `3764d95` — fix: AWHeapOrder explicit Equatable, AWHeap equality note, fix doc comment typo in AWSinglyLinkedList
+- Latest commit: `beb6c17` — test: audit — DLL empty description, DLL popTail clears head+tail, Deque nil-on-empty pops
 - Branch: `master`
 
 ## Build Commands
@@ -68,18 +68,19 @@ All four higher-level types are superseded by better alternatives:
 - **`AWDLLNode.prev` is `weak var`** — breaks ARC retain cycles between adjacent nodes. Without this, releasing an `AWDoublyLinkedList` (or `AWDeque`) with ≥ 2 nodes would leak the entire node chain because the bidirectional strong references prevent any node's reference count from reaching zero.
 - **`AWNode.next` and `AWDLLNode.next`/`AWDLLNode.prev` are `public internal(set)`** — external consumers can traverse nodes by reading these properties, but cannot write to them. Writing from outside the module would silently corrupt `count`, `head`, and `tail` invariants.
 
-## Tests — 48 total, all passing
+## Tests — 52 total, all passing
 | Suite | File | Count |
 |---|---|---|
 | `AWSinglyLinkedListTests` | `AWSinglyLinkedListTests.swift` | 9 (includes empty description test) |
-| `AWDoublyLinkedListTests` | `AWDoublyLinkedListTests.swift` | 10 (includes description + ARC leak regression) |
+| `AWDoublyLinkedListTests` | `AWDoublyLinkedListTests.swift` | 12 (includes empty description, popTail clears head+tail, ARC leak regression) |
 | `AWQueueTests` | `AWQueueTests.swift` | 6 (includes CoW, description, equality tests) |
-| `AWDequeTests` | `AWDequeTests.swift` | 7 (includes CoW, description, equality tests) |
+| `AWDequeTests` | `AWDequeTests.swift` | 9 (includes CoW, nil-on-empty pops, description, equality tests) |
 | `AWStackTests` | `AWStackTests.swift` | 6 (includes CoW, description, equality tests) |
 | `AWHeapTests` | `AWHeapTests.swift` | 10 (includes description format, equality tests) |
 
 ## Commit history
 ```
+beb6c17 test: audit — DLL empty description, DLL popTail clears head+tail, Deque nil-on-empty pops
 3764d95 fix: AWHeapOrder explicit Equatable, AWHeap equality note, fix doc comment typo in AWSinglyLinkedList
 5b30cd8 feat: audit fixes — Equatable conformance, description tests, remove obsolete Linux test files
 f94ccc2 ci: add GitHub Actions workflow (macOS + Ubuntu)
