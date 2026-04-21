@@ -22,7 +22,7 @@ public final class AWNode<T> {
 /// which is O(n).
 ///
 /// For most other sequential storage needs, prefer `Array` or, if you need
-/// O(1) both-end access, the `AWDeque` type from `swift-collections`.
+/// O(1) both-end access, `Deque<T>` from `swift-collections`.
 public final class AWSinglyLinkedList<T> {
     public private(set) var head: AWNode<T>?
     public private(set) var tail: AWNode<T>?

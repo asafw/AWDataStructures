@@ -6,7 +6,7 @@
 //
 
 /// Specifies the ordering for an `AWHeap`.
-public enum AWHeapOrder {
+public enum AWHeapOrder: Equatable {
     /// The smallest element is at the root (min-heap).
     case min
     /// The largest element is at the root (max-heap).
@@ -112,6 +112,9 @@ extension AWHeap: CustomStringConvertible {
     }
 }
 
+/// - Note: Equality compares the internal storage array directly, not semantic
+///   equivalence. Two heaps containing the same elements inserted in different
+///   orders may have different internal layouts and will compare as unequal.
 extension AWHeap: Equatable where T: Equatable {
     public static func == (lhs: AWHeap<T>, rhs: AWHeap<T>) -> Bool {
         lhs.order == rhs.order && lhs.capacity == rhs.capacity && lhs.storage == rhs.storage
