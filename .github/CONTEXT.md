@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `5b30cd8` — feat: audit fixes — Equatable conformance, description tests, remove obsolete Linux test files
+- Latest commit: `3764d95` — fix: AWHeapOrder explicit Equatable, AWHeap equality note, fix doc comment typo in AWSinglyLinkedList
 - Branch: `master`
 
 ## Build Commands
@@ -50,7 +50,7 @@ All four higher-level types are superseded by better alternatives:
 | `AWQueue<T>` | `AWQueue.swift` | `struct` | `AWSinglyLinkedList` (CoW) | Value ✓ |
 | `AWDeque<T>` | `AWDeque.swift` | `struct` | `AWDoublyLinkedList` (CoW) | Value ✓ |
 | `AWStack<T>` | `AWStack.swift` | `struct` | `AWSinglyLinkedList` (CoW) | Value ✓ |
-| `AWHeapOrder` | `AWHeap.swift` | `enum` | — | Value ✓ |
+| `AWHeapOrder` | `AWHeap.swift` | `enum: Equatable` | — | Value ✓ |
 | `AWHeap<T: Comparable>` | `AWHeap.swift` | `struct` | `[T]` array | Value ✓ |
 | `AWMinHeap<T>` | `AWHeap.swift` | typealias for `AWHeap<T>` | — | does not enforce order |
 | `AWMaxHeap<T>` | `AWHeap.swift` | typealias for `AWHeap<T>` | — | does not enforce order |
@@ -80,6 +80,7 @@ All four higher-level types are superseded by better alternatives:
 
 ## Commit history
 ```
+3764d95 fix: AWHeapOrder explicit Equatable, AWHeap equality note, fix doc comment typo in AWSinglyLinkedList
 5b30cd8 feat: audit fixes — Equatable conformance, description tests, remove obsolete Linux test files
 f94ccc2 ci: add GitHub Actions workflow (macOS + Ubuntu)
 a28ecdd docs(context): fix stale type names and missing commits in context
