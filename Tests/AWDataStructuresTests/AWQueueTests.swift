@@ -36,4 +36,20 @@ final class AWQueueTests: XCTestCase {
         XCTAssertEqual(q1.peek(), 1)
         XCTAssertEqual(q2.peek(), 1)
     }
+
+    func testDescription() {
+        var q = AWQueue<Int>()
+        [1, 2, 3].forEach { q.enqueue($0) }
+        XCTAssertEqual(q.description, "1 -> 2 -> 3")
+    }
+
+    func testEqualityAndInequality() {
+        var q1 = AWQueue<Int>()
+        var q2 = AWQueue<Int>()
+        [1, 2, 3].forEach { q1.enqueue($0) }
+        [1, 2, 3].forEach { q2.enqueue($0) }
+        XCTAssertEqual(q1, q2)
+        q2.enqueue(4)
+        XCTAssertNotEqual(q1, q2)
+    }
 }

@@ -112,6 +112,12 @@ extension AWHeap: CustomStringConvertible {
     }
 }
 
+extension AWHeap: Equatable where T: Equatable {
+    public static func == (lhs: AWHeap<T>, rhs: AWHeap<T>) -> Bool {
+        lhs.order == rhs.order && lhs.capacity == rhs.capacity && lhs.storage == rhs.storage
+    }
+}
+
 /// A min-heap: root is always the smallest element.
 /// - Note: This is a typealias for `AWHeap<T>`. The order is not enforced by
 ///   the type system; you must pass `AWHeapOrder.min` at construction:

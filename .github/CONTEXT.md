@@ -60,6 +60,7 @@ All four higher-level types are superseded by better alternatives:
 - `AWHeap.insert()` returns `Bool`: `false` when capacity is reached (never silently drops).
 - `AWSinglyLinkedList` and `AWDoublyLinkedList` conform to `Sequence` and `CustomStringConvertible`.
 - `AWQueue`, `AWDeque`, `AWStack`, `AWHeap` conform to `CustomStringConvertible`.
+- `AWQueue`, `AWDeque`, `AWStack`, `AWHeap` conform to `Equatable` where `T: Equatable` (conditional conformance).
 - `AWMinHeap<T>` / `AWMaxHeap<T>` are typealiases — they do **not** enforce order at the type system level. Always pass the correct `AWHeapOrder` at construction.
 - All `pop` / `extract` / `dequeue` methods are marked `@discardableResult` — callers can ignore the return value without a compiler warning.
 - `AWSinglyLinkedList.pushHead` correctly sets `tail` when inserting into an empty list (bug fixed in v2.0).
@@ -67,15 +68,15 @@ All four higher-level types are superseded by better alternatives:
 - **`AWDLLNode.prev` is `weak var`** — breaks ARC retain cycles between adjacent nodes. Without this, releasing an `AWDoublyLinkedList` (or `AWDeque`) with ≥ 2 nodes would leak the entire node chain because the bidirectional strong references prevent any node's reference count from reaching zero.
 - **`AWNode.next` and `AWDLLNode.next`/`AWDLLNode.prev` are `public internal(set)`** — external consumers can traverse nodes by reading these properties, but cannot write to them. Writing from outside the module would silently corrupt `count`, `head`, and `tail` invariants.
 
-## Tests — 41 total, all passing
+## Tests — 48 total, all passing
 | Suite | File | Count |
 |---|---|---|
 | `AWSinglyLinkedListTests` | `AWSinglyLinkedListTests.swift` | 9 (includes empty description test) |
 | `AWDoublyLinkedListTests` | `AWDoublyLinkedListTests.swift` | 10 (includes description + ARC leak regression) |
-| `AWQueueTests` | `AWQueueTests.swift` | 4 (includes CoW test) |
-| `AWDequeTests` | `AWDequeTests.swift` | 5 (includes CoW test) |
-| `AWStackTests` | `AWStackTests.swift` | 4 (includes CoW test) |
-| `AWHeapTests` | `AWHeapTests.swift` | 9 (includes description format test) |
+| `AWQueueTests` | `AWQueueTests.swift` | 6 (includes CoW, description, equality tests) |
+| `AWDequeTests` | `AWDequeTests.swift` | 7 (includes CoW, description, equality tests) |
+| `AWStackTests` | `AWStackTests.swift` | 6 (includes CoW, description, equality tests) |
+| `AWHeapTests` | `AWHeapTests.swift` | 10 (includes description format, equality tests) |
 
 ## Commit history
 ```

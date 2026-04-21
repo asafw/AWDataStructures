@@ -50,3 +50,10 @@ public struct AWStack<T> {
 extension AWStack: CustomStringConvertible {
     public var description: String { list.description }
 }
+
+extension AWStack: Equatable where T: Equatable {
+    public static func == (lhs: AWStack<T>, rhs: AWStack<T>) -> Bool {
+        guard lhs.count == rhs.count else { return false }
+        return zip(lhs.list, rhs.list).allSatisfy { $0 == $1 }
+    }
+}

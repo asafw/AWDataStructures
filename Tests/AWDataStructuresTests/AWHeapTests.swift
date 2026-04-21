@@ -87,4 +87,15 @@ final class AWHeapTests: XCTestCase {
         maxHeap.insert(2)
         XCTAssertTrue(maxHeap.description.hasPrefix("AWMaxHeap["), "AWMaxHeap description should start with 'AWMaxHeap['")
     }
+
+    func testEqualityAndInequality() {
+        var h1 = AWHeap<Int>(order: .min)
+        var h2 = AWHeap<Int>(order: .min)
+        [3, 1, 2].forEach { h1.insert($0) }
+        [3, 1, 2].forEach { h2.insert($0) }
+        XCTAssertEqual(h1, h2)
+        var h3 = AWHeap<Int>(order: .max)
+        [3, 1, 2].forEach { h3.insert($0) }
+        XCTAssertNotEqual(h1, h3, "Heaps with different orders should not be equal")
+    }
 }

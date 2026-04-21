@@ -36,4 +36,21 @@ final class AWStackTests: XCTestCase {
         XCTAssertEqual(s1.peek(), 1)
         XCTAssertEqual(s2.peek(), 2)
     }
+
+    func testDescription() {
+        var s = AWStack<Int>()
+        [1, 2, 3].forEach { s.push($0) }
+        // push uses pushHead, so last pushed is at front
+        XCTAssertEqual(s.description, "3 -> 2 -> 1")
+    }
+
+    func testEqualityAndInequality() {
+        var s1 = AWStack<Int>()
+        var s2 = AWStack<Int>()
+        [1, 2, 3].forEach { s1.push($0) }
+        [1, 2, 3].forEach { s2.push($0) }
+        XCTAssertEqual(s1, s2)
+        s2.push(4)
+        XCTAssertNotEqual(s1, s2)
+    }
 }

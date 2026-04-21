@@ -52,3 +52,10 @@ public struct AWQueue<T> {
 extension AWQueue: CustomStringConvertible {
     public var description: String { list.description }
 }
+
+extension AWQueue: Equatable where T: Equatable {
+    public static func == (lhs: AWQueue<T>, rhs: AWQueue<T>) -> Bool {
+        guard lhs.count == rhs.count else { return false }
+        return zip(lhs.list, rhs.list).allSatisfy { $0 == $1 }
+    }
+}

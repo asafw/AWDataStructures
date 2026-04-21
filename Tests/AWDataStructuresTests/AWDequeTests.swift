@@ -48,4 +48,20 @@ final class AWDequeTests: XCTestCase {
         XCTAssertEqual(d1.count, 1, "Original deque should be unaffected by mutation of copy")
         XCTAssertEqual(d2.count, 2)
     }
+
+    func testDescription() {
+        var d = AWDeque<Int>()
+        [1, 2, 3].forEach { d.pushBack($0) }
+        XCTAssertEqual(d.description, "1 <-> 2 <-> 3")
+    }
+
+    func testEqualityAndInequality() {
+        var d1 = AWDeque<Int>()
+        var d2 = AWDeque<Int>()
+        [1, 2, 3].forEach { d1.pushBack($0) }
+        [1, 2, 3].forEach { d2.pushBack($0) }
+        XCTAssertEqual(d1, d2)
+        d2.pushBack(4)
+        XCTAssertNotEqual(d1, d2)
+    }
 }

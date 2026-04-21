@@ -66,3 +66,10 @@ public struct AWDeque<T> {
 extension AWDeque: CustomStringConvertible {
     public var description: String { list.description }
 }
+
+extension AWDeque: Equatable where T: Equatable {
+    public static func == (lhs: AWDeque<T>, rhs: AWDeque<T>) -> Bool {
+        guard lhs.count == rhs.count else { return false }
+        return zip(lhs.list, rhs.list).allSatisfy { $0 == $1 }
+    }
+}
