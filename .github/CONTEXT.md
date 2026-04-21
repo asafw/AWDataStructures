@@ -6,7 +6,7 @@
 ## Repo
 - Path: `~/Desktop/asafw/AWDataStructures/`
 - GitHub: `asafw/AWDataStructures` (public)
-- Latest commit: `f94ccc2` — ci: add GitHub Actions workflow (macOS + Ubuntu)
+- Latest commit: `5b30cd8` — feat: audit fixes — Equatable conformance, description tests, remove obsolete Linux test files
 - Branch: `master`
 
 ## Build Commands
@@ -80,6 +80,7 @@ All four higher-level types are superseded by better alternatives:
 
 ## Commit history
 ```
+5b30cd8 feat: audit fixes — Equatable conformance, description tests, remove obsolete Linux test files
 f94ccc2 ci: add GitHub Actions workflow (macOS + Ubuntu)
 a28ecdd docs(context): fix stale type names and missing commits in context
 bd0227c docs(context): fix commit hash after test file split
