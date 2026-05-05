@@ -20,7 +20,7 @@ A Swift package of classic CS data structures. Written in 2020 when Swift's stan
 - `AWSinglyLinkedList` and `AWDoublyLinkedList` conform to `Sequence` and `CustomStringConvertible`.
 - `AWQueue`, `AWDeque`, `AWStack`, and `AWHeap` conform to `CustomStringConvertible` only.
 - All four higher-level types are value types (`struct`).
-- `AWMinHeap<T>` and `AWMaxHeap<T>` are typealiases for `AWHeap<T>`.
+- `AWMinHeap<T>` and `AWMaxHeap<T>` are typealiases for `AWHeap<T>`
 
 ---
 
