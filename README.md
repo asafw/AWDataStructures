@@ -17,9 +17,9 @@ A Swift package of classic CS data structures. Written in 2020 when Swift's stan
 | `AWStack<T>` | LIFO stack backed by `AWSinglyLinkedList` | push/pop O(1) |
 | `AWHeap<T: Comparable>` | Binary heap, configurable as min-heap or max-heap | insert/extract O(log n) |
 
-- `AWSinglyLinkedList` and `AWDoublyLinkedList` conform to `Sequence` and `CustomStringConvertible`.
-- `AWQueue`, `AWDeque`, `AWStack`, and `AWHeap` conform to `CustomStringConvertible` only.
-- All four higher-level types are value types (`struct`).
+- `AWSinglyLinkedList` and `AWDoublyLinkedList` conform to `Sequence` and `CustomStringConvertible`
+- `AWQueue`, `AWDeque`, `AWStack`, and `AWHeap` conform to `CustomStringConvertible` only
+- All four higher-level types are value types (`struct`)
 - `AWMinHeap<T>` and `AWMaxHeap<T>` are typealiases for `AWHeap<T>`
 
 ---
@@ -37,7 +37,7 @@ A Swift package of classic CS data structures. Written in 2020 when Swift's stan
 
 ### Still has no direct stdlib equivalent
 
-- **`AWSinglyLinkedList<T>` / `AWDoublyLinkedList<T>`** — Swift's standard library has no linked list. For general use, `Array` or `Deque<T>` from `swift-collections` will outperform these — contiguous memory has better cache performance than pointer-chased nodes. Within this library they serve as the O(1) backing stores for `AWQueue` and `AWDeque` respectively.
+- **`AWSinglyLinkedList<T>` / `AWDoublyLinkedList<T>`** — Swift's standard library has no linked list. For general use, `Array` or `Deque<T>` from `swift-collections` will outperform these — contiguous memory has better cache performance than pointer-chased nodes. Within this library they serve as the O(1) backing stores for `AWQueue` and `AWDeque` respectively
 
 ---
 
@@ -137,14 +137,14 @@ print(list)     // → "1 <-> 2"
 
 ## History
 
-- **v1.0 (2020)** — Original release. All types were `class`-based. Target: iOS 13+, Swift 5.3.
+- **v1.0 (2020)** — Original release. All types were `class`-based. Target: iOS 13+, Swift 5.3
 - **v2.0 (2026)** — Major modernization:
-  - `AWQueue`, `AWDeque`, `AWStack` converted to `struct` (value semantics).
-  - `Dequeue` renamed to `AWDeque` (correct spelling).
-  - `AWMinHeap` and `AWMaxHeap` merged into a single generic `Heap<T>` parameterized by `AWHeapOrder`; typealiases retained for compatibility.
-  - Heap capacity violations now return `Bool` instead of printing a message.
-  - `printList()` removed; all types now conform to `CustomStringConvertible`.
-  - `Sequence` conformance added to `AWSinglyLinkedList` and `AWDoublyLinkedList`.
-  - Platform restriction removed; package builds on any Swift 5.9+ platform.
-  - Real unit tests added (was previously boilerplate-only).
+  - `AWQueue`, `AWDeque`, `AWStack` converted to `struct` (value semantics)
+  - `Dequeue` renamed to `AWDeque` (correct spelling)
+  - `AWMinHeap` and `AWMaxHeap` merged into a single generic `Heap<T>` parameterized by `AWHeapOrder`; typealiases retained for compatibility
+  - Heap capacity violations now return `Bool` instead of printing a message
+  - `printList()` removed; all types now conform to `CustomStringConvertible`
+  - `Sequence` conformance added to `AWSinglyLinkedList` and `AWDoublyLinkedList`
+  - Platform restriction removed; package builds on any Swift 5.9+ platform
+  - Real unit tests added (was previously boilerplate-only)
 
