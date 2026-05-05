@@ -34,7 +34,7 @@ A Swift package of classic CS data structures. Written in 2020 when Swift's stan
 
 ### Still has no direct stdlib equivalent
 
-- **`AWSinglyLinkedList<T>` / `AWDoublyLinkedList<T>`** — Swift's stdlib has never shipped a linked list. `Array` or `swift-collections`' `AWDeque` will outperform pointer-chased nodes in almost every real use case due to cache locality. These types are kept as teaching references — classic CS implementations with no practical production advantage over the alternatives above.
+- **`AWSinglyLinkedList<T>` / `AWDoublyLinkedList<T>`** — Swift's standard library has no linked list. For general use, `Array` or `Deque<T>` from `swift-collections` will outperform these — contiguous memory has better cache performance than pointer-chased nodes. Within this library they serve as the O(1) backing stores for `AWQueue` and `AWDeque` respectively.
 
 ---
 
